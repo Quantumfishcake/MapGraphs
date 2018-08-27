@@ -8,9 +8,10 @@ body {
   width: 20vw;
   height: 20vh;
 position: absolute;
-left: 10px;
-top: 40%;
+left: 12vw;
+top: 40vh;
 }
 .mapContainer {
   position: relative;
+  left: -200px;
 }

@@ -6,7 +6,10 @@ import topology from './world-topo.json';
 import News from './news.js'
 import Chart from './Chart.js'
 import Population from './population2.js'
-import Population22 from './population.js'
+import BarPop from './barpop.js'
+import JoinBars from './joinbars.js'
+import WorldMap from './Map2.js'
+import ZoomPan from './zoommap.js'
 
 class Map extends React.Component {
 constructor() {
@@ -22,8 +25,8 @@ constructor() {
     const world = topojson.feature(topology, topology.objects.units);
 
     const impCountries = ['Argentina', 'Australia', 'Austria', 'Belgium', 'Brazil', 'Bulgaria', 'Canada', 'China', 'Colombia', 'Cuba', 'Czech Republic', 'Egypt', 'France', 'Germany', 'Greece', 'Hong Kong', 'Hungary', 'India', 'Indonesia', 'Ireland', 'Israel', 'Italy', 'Japan', 'Latvia', 'Lithuania', 'Malaysia', 'Mexico', 'Morocco', 'Netherlands', 'New Zealand', 'Nigeria', 'Norway', 'Philippines', 'Poland', 'Portugal', 'Romania', 'Russia', 'Saudi Arabia', 'Serbia', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa', 'South Korea', 'Sweden', 'Switzerland', 'Taiwan', 'Thailand', 'Turkey', 'UAE', 'Ukraine', 'United Kingdom', 'United States', 'Venezuela']
-    const width = 1500
-    const height = 800
+    const width = 1100
+    const height = 650
     return (
         <div className='mapContainer'>
       <svg width={width} height={height}>
@@ -54,6 +57,7 @@ constructor() {
             {this.setState({selectedCountry: data.properties.name})}
             // alert(`Clicked: ${data.properties.name} (${data.id})`);
             console.log('map country state', this.state.country)
+            console.log(data.properties.name)
           }}
           onMouseOver = {data => event => {
               this.setState({hoverCountry: data.properties.name})
@@ -61,7 +65,12 @@ constructor() {
         />
       </svg>
       <News country={this.state.country}/>
-      <Population country={this.state.selectedCountry}/>
+      {/* <Population country={this.state.selectedCountry}/> */}
+      <BarPop country={this.state.selectedCountry} secondcountry={this.state.hoverCountry}/>
+      <JoinBars country={this.state.selectedCountry} secondcountry={this.state.hoverCountry}/>
+      <Chart country={this.state.selectedCountry}/>
+      <WorldMap />
+      <ZoomPan />
       </div>
     )
   };
