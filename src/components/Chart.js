@@ -12,8 +12,6 @@ import {csv} from 'd3-fetch';
 import population from './population1.csv'
 import 'react-rangeslider/lib/index.css'
 
-
-
 class Chart extends React.Component {
   constructor(props) {
     super(props)
@@ -24,11 +22,7 @@ class Chart extends React.Component {
     };
     this._handleChange = this._handleChange.bind(this)
     this._handleSubmit = this._handleSubmit.bind(this)
-
-    
   }
-
- 
 
   componentWillReceiveProps = (newProps) =>{
     

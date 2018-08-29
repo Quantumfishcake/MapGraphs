@@ -13,8 +13,6 @@
 // import population from './population1.csv'
 // import _ from 'lodash'
 
-
-
 // class Population22 extends React.Component {
 //     constructor(props) {
 //         super(props);
@@ -39,10 +37,8 @@
 //                     this.setState({data: result3})
 //                    }
 //                 });
-        
+
 //             }
-
-
 
 //      stock = this.state.data
 //  formatDate = timeFormat("%b %d, '%y");
@@ -52,8 +48,6 @@
 //  yStock = d => d.population;
 //  bisectDate = bisector(d => d.year).left;
 
-
-
 //     render() {
 //         console.log(this.stock)
 //         const stock = this.stock
@@ -61,7 +55,6 @@
 //         const yStock = this.yStock
 //         const bisectDate = this.bisectDate
 //         const formatDate = this.formatDate
-
 
 //         const {
 
@@ -76,8 +69,6 @@
 //         const width = 1000
 //         const height = 500
 //         const margin = 0
-
-
 
 //         if (width < 10) return null;
 
@@ -97,7 +88,7 @@
 //         });
 
 //         return (
-          
+
 //             <div>
 //                 <svg ref={s => (this.svg = s)} width={width} height={height}>
 //                     <rect

@@ -1,34 +1,31 @@
-import React from 'react';
-import { GradientTealBlue, RadialGradient } from '@vx/gradient';
-import { Mercator } from '@vx/geo';
-import * as topojson from 'topojson-client';
-import topology from './world-topo.json';
-
+import React from 'react'
+import { GradientTealBlue, RadialGradient } from '@vx/gradient'
+import { Mercator } from '@vx/geo'
+import * as topojson from 'topojson-client'
+import topology from './world-topo.json'
 
 import ZoomPan from './zoommap.js'
 
 class Map extends React.Component {
-constructor() {
+  constructor () {
     super()
     this.state = {
-        country: 'us',
-        hoverCountry: '',
-        selectedCountry: '',
-        population: 1000000
+      country: 'us',
+      hoverCountry: '',
+      selectedCountry: '',
+      population: 1000000
     }
-}
+  }
 
-
-  
-  render(){
-    const world = topojson.feature(topology, topology.objects.units);
+  render () {
+    const world = topojson.feature(topology, topology.objects.units)
 
     const impCountries = ['Argentina', 'Australia', 'Austria', 'Belgium', 'Brazil', 'Bulgaria', 'Canada', 'China', 'Colombia', 'Cuba', 'Czech Republic', 'Egypt', 'France', 'Germany', 'Greece', 'Hong Kong', 'Hungary', 'India', 'Indonesia', 'Ireland', 'Israel', 'Italy', 'Japan', 'Latvia', 'Lithuania', 'Malaysia', 'Mexico', 'Morocco', 'Netherlands', 'New Zealand', 'Nigeria', 'Norway', 'Philippines', 'Poland', 'Portugal', 'Romania', 'Russia', 'Saudi Arabia', 'Serbia', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa', 'South Korea', 'Sweden', 'Switzerland', 'Taiwan', 'Thailand', 'Turkey', 'UAE', 'Ukraine', 'United Kingdom', 'United States', 'Venezuela']
     const width = 1100
     const height = 650
     return (
-        <div className='mapContainer'>
-      {/* <svg width={width} height={height}>
+      <div className='mapContainer' saffsa='sfafsa'>
+        {/* <svg width={width} height={height}>
         <RadialGradient
           id="geo_mercator_radial"
           from="#55bdd5"
@@ -65,12 +62,11 @@ constructor() {
       </svg>
 
       <Population country={this.state.selectedCountry}/> */}
-  
-    <ZoomPan />
-    
+
+        <ZoomPan />
+
       </div>
     )
   };
-  
 };
 export default Map
