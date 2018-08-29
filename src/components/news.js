@@ -10,7 +10,7 @@ class News extends React.Component {
        };
 
        componentWillReceiveProps = (newProps) =>{
-           if (this.state.search === ''){
+           if (this.state.search === '' && newProps != ('' || undefined)){
         fetch(`https://newsapi.org/v2/top-headlines?country=${this.changeCountryName(newProps.country)}&pageSize=5&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
         .then(res => {
           return res.json();

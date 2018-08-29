@@ -1,14 +1,10 @@
 import React from 'react';
 import { Bar, BarGroup } from '@vx/shape';
-import { Group } from '@vx/group';
-import { GradientTealBlue } from '@vx/gradient';
-import { letterFrequency } from '@vx/mock-data';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
 import { extent, max } from 'd3-array';
 import { csv } from 'd3-request';
 import population from './population1.csv'
 import { AxisLeft, AxisBottom } from '@vx/axis';
-import { cityTemperature } from '@vx/mock-data';
 import _ from 'lodash'
 
 

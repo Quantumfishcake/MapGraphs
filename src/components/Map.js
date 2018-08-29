@@ -3,12 +3,8 @@ import { GradientTealBlue, RadialGradient } from '@vx/gradient';
 import { Mercator } from '@vx/geo';
 import * as topojson from 'topojson-client';
 import topology from './world-topo.json';
-import News from './news.js'
-import Chart from './Chart.js'
-import Population from './population2.js'
-import BarPop from './barpop.js'
-import JoinBars from './joinbars.js'
-import WorldMap from './Map2.js'
+
+
 import ZoomPan from './zoommap.js'
 
 class Map extends React.Component {
@@ -17,9 +13,12 @@ constructor() {
     this.state = {
         country: 'us',
         hoverCountry: '',
-        selectedCountry: ''
+        selectedCountry: '',
+        population: 1000000
     }
 }
+
+
   
   render(){
     const world = topojson.feature(topology, topology.objects.units);
@@ -29,7 +28,7 @@ constructor() {
     const height = 650
     return (
         <div className='mapContainer'>
-      <svg width={width} height={height}>
+      {/* <svg width={width} height={height}>
         <RadialGradient
           id="geo_mercator_radial"
           from="#55bdd5"
@@ -64,13 +63,11 @@ constructor() {
           }}
         />
       </svg>
-      <News country={this.state.country}/>
-      {/* <Population country={this.state.selectedCountry}/> */}
-      <BarPop country={this.state.selectedCountry} secondcountry={this.state.hoverCountry}/>
-      <JoinBars country={this.state.selectedCountry} secondcountry={this.state.hoverCountry}/>
-      <Chart country={this.state.selectedCountry}/>
-      <WorldMap />
-      <ZoomPan />
+
+      <Population country={this.state.selectedCountry}/> */}
+  
+    <ZoomPan />
+    
       </div>
     )
   };
