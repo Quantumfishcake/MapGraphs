@@ -32,12 +32,12 @@ class JoinBars extends React.Component {
                 return x['Country Name'] == newProps.secondcountry
             })
 
-            if (result != '') {
+            if (result != '' && (resultHover != undefined || null) || '') {
                 var result2 = Object.keys(result[0]).map(function (e) {
                     return { year: e, population: result[0][e] }
                 })
                 var result3 = result2.slice(0, -5)
-                var resultHover2 = Object.keys(resultHover[0]).map(function (e) {
+                var resultHover2 = resultHover[0] && Object.keys(resultHover[0]).map(function (e) {
                     return { year: e, population: resultHover[0][e] }
                 })
                 var resultHover3 = resultHover2.slice(0, -5)
@@ -84,19 +84,17 @@ class JoinBars extends React.Component {
         });
         const zScale = scaleOrdinal({
             domain: keys,
-            range: ['#aeeef8', '#e5fd3d', '#9caff6']
+            range: ['blue', 'purple', 'green']
         })
 
         return (
             <svg width={width} height={height}>
-            {console.log(data)}
-            {console.log(keys)}
                 <rect
                     x={0}
                     y={0}
                     width={width}
                     height={height}
-                    fill='#612efb'
+                    fill='white'
                     rx={14}
                 />
                 <BarGroup
@@ -110,9 +108,7 @@ class JoinBars extends React.Component {
                     yScale={yScale}
                     zScale={zScale}
                     rx={4}
-                    onClick={data => event => {
-                        alert(`clicked: ${JSON.stringify(data)}`)
-                    }}
+
                 />
                 <AxisBottom
                     scale={x0Scale}

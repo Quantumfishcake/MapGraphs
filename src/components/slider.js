@@ -9,7 +9,7 @@ class SliderBar extends React.Component {
 constructor() {
     super()
     this.state={
-        population: 5000000
+        population: 50000
     }
 }
 

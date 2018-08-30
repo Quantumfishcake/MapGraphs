@@ -29,7 +29,12 @@ body {
   border-top: 0.5rem solid rgba(255, 255, 255, 0.95);
 }
 
+.MainContainer2{
+  display: grid;
+  grid-template-columns: 82.5% 17.5%;
+}
 .MainContainer{
   display: grid;
-  grid-template-columns: 80% 20%;
+  grid-template-columns: 100%;
 }
+

@@ -50,7 +50,7 @@ class BarStacks extends React.Component {
       tooltipData,
       hideTooltip,
       showTooltip
-    } 
+    } = this.props
     // bounds
     const xMax = width
     const yMax = height - margin.top - 100
@@ -78,36 +78,36 @@ class BarStacks extends React.Component {
       <div style={{ position: 'relative' }}>
         <svg width={width} height={height}>
           <rect x={0} y={0} width={500} height={500} fill={`#eaedff`} rx={14} />
-            <Grid
-            top={margin.top}
-            left={margin.left}
-            xScale={xScale}
-            yScale={yScale}
-            width={xMax}
-            height={yMax}
-            stroke={'black'}
-            strokeOpacity={0.1}
-            xOffset={xScale.bandwidth() / 2}
+          <Grid
+              top={margin.top}
+              left={margin.left}
+              xScale={xScale}
+              yScale={yScale}
+              width={xMax}
+              height={yMax}
+              stroke={'black'}
+              strokeOpacity={0.1}
+              xOffset={xScale.bandwidth() / 2}
           />
-            <BarStack
-            top={margin.top}
-            data={data}
-            keys={keys}
-            height={yMax}
-            x={x}
-            xScale={xScale}
-            yScale={yScale}
-            zScale={zScale}
-            onClick={data => event => {
+          <BarStack
+              top={margin.top}
+              data={data}
+              keys={keys}
+              height={yMax}
+              x={x}
+              xScale={xScale}
+              yScale={yScale}
+              zScale={zScale}
+              onClick={data => event => {
               if (!event) return
               alert(`clicked: ${JSON.stringify(data)}`)
             }}
-            onMouseLeave={data => event => {
+              onMouseLeave={data => event => {
               this.tooltipTimeout = setTimeout(() => {
                 hideTooltip()
               }, 300)
             }}
-            onMouseMove={data => event => {
+              onMouseMove={data => event => {
               if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout)
               const top = event.clientY - margin.top - data.height
               const left = xScale(data.x) + data.width + data.paddingInner * data.step / 2
@@ -118,20 +118,20 @@ class BarStacks extends React.Component {
               })
             }}
           />
-            <AxisBottom
-            scale={xScale}
-            top={yMax + margin.top}
-            stroke='#a44afe'
-            tickStroke='#a44afe'
-            tickLabelProps={(value, index) => ({
+          <AxisBottom
+              scale={xScale}
+              top={yMax + margin.top}
+              stroke='#a44afe'
+              tickStroke='#a44afe'
+              tickLabelProps={(value, index) => ({
               fill: '#a44afe',
               fontSize: 11,
               textAnchor: 'middle'
             })}
           />
         </svg>
-          <div
-          style={{
+        <div
+            style={{
             position: 'absolute',
             top: margin.top / 2 - 10,
             width: '100%',
@@ -141,7 +141,7 @@ class BarStacks extends React.Component {
           }}
         >
           <LegendOrdinal scale={zScale} direction='row' labelMargin='0 15px 0 0' />
-        </div>
+          </div>
         {tooltipOpen && (
           <Tooltip
             top={tooltipTop}
@@ -155,10 +155,10 @@ class BarStacks extends React.Component {
             <div style={{ color: zScale(tooltipData.key) }}>
               <strong>{tooltipData.key}</strong>
             </div>
-              <div>{tooltipData.data[tooltipData.key]}℉</div>
-              <div>
-              <small>{tooltipData.xFormatted}</small>
-            </div>
+            <div>{tooltipData.data[tooltipData.key]}℉</div>
+            <div>
+                <small>{tooltipData.xFormatted}</small>
+              </div>
           </Tooltip>
         )}
       </div>

@@ -15,14 +15,19 @@ import { scaleLinear } from "d3-scale"
 import chroma from "chroma-js"
 import News from './news.js'
 import Weather from './weather.js'
-import JoinBars from './joinbars.js'
 import FactBook from './factbook.js'
 
 
 const wrapperStyles = {
   width: "100%",
-  maxWidth: 980,
-  margin: "0 auto",
+  maxHeight: 800,
+  maxWidth: 1250,
+  margin: "0",
+}
+const wrapperStyles2 = {
+  width: "100%",
+  maxHeight: 800,
+  margin: "0",
 }
 const colorScale = chroma
   .scale([
@@ -91,7 +96,10 @@ class ZoomPan extends Component {
       hoverCountry: '',
       selectedCountryId: '',
       lon: '',
-      lat: ''
+      lat: '',
+      isZoom: false,
+      weather: 'show',
+      graphs: 'hidden'
     }
   }
 
@@ -167,12 +175,19 @@ class ZoomPan extends Component {
 
   handleCountrySelection = (i) => {
     console.log(i)
-    this.setState({
+     
+    this.state.isZoom ? this.setState({
       lon: !i.geometry.coordinates[0][0].some(isNaN) ? i.geometry.coordinates[0][0][0] : i.geometry.coordinates[0][0][0][0],
       lat: !i.geometry.coordinates[0][0].some(isNaN) ? i.geometry.coordinates[0][0][1] : i.geometry.coordinates[0][0][0][1],
       selectedCountry: i.properties.admin,
       center: !i.geometry.coordinates[0][0].some(isNaN) ? i.geometry.coordinates[0][0] : i.geometry.coordinates[0][0][0],
       zoom: 3,
+    }) : 
+    this.setState({
+      lon: !i.geometry.coordinates[0][0].some(isNaN) ? i.geometry.coordinates[0][0][0] : i.geometry.coordinates[0][0][0][0],
+      lat: !i.geometry.coordinates[0][0].some(isNaN) ? i.geometry.coordinates[0][0][1] : i.geometry.coordinates[0][0][0][1],
+      selectedCountry: i.properties.admin,
+
     })
     console.log(this.state.selectedCountry)
     console.log(!i.geometry.coordinates[0][0].some(isNaN) ? i.geometry.coordinates[0][0][0] : i.geometry.coordinates[0][0][0][0])
@@ -188,6 +203,15 @@ class ZoomPan extends Component {
       zoom: 3,
     })
   }
+
+  switchToData = () => {
+    this.setState({graphs: 'show', weather: 'hidden'})
+  }
+  switchToWeather = () => {
+    this.setState({graphs: 'hidden', weather: 'show'})
+  }
+
+
   handleReset = () => {
     this.setState({
       center: [0, 20],
@@ -196,9 +220,8 @@ class ZoomPan extends Component {
   }
   render() {
     return (
-      <div>
-        <div className='MainContainer'>
-          <div className='MapContainer'>
+
+        <div className={this.state.selectedCountry == '' ? 'MainContainer' :'MainContainer2' } >
             <div>
               <button onClick={this.switchToPopulation}>
                 Population data
@@ -218,8 +241,8 @@ class ZoomPan extends Component {
                 Reset
           </button>
             </div>
-
-            <div style={wrapperStyles}>
+            <div className='MapContainer' style={{display: this.state.selectedCountry == '' ? 'block' : 'inline-block'}}>
+            <div style={this.state.selectedCountry == '' ? wrapperStyles : wrapperStyles2}>
               <ComposableMap
                 projectionConfig={{
                   scale: 205,
@@ -242,10 +265,10 @@ class ZoomPan extends Component {
                         onMouseLeave={this.handleMouseLeave}
                         onClick={this.handleCountrySelection}
 
+
                         style={{
                           default: {
                             fill: this.state.populationData == 1 ? this.state.selectedCountry == geography.properties.admin ? 'red' : 'lightgrey' : this.state.populationData == 2 ? popScale(geography.properties.pop_est) : this.state.populationData == 4 ? colorScale2[income_group.indexOf(geography.properties.income_grp)] : colorScale[subregions.indexOf(geography.properties.subregion)],
-
 
                             stroke: "#607D8B",
                             strokeWidth: 0.75,
@@ -300,16 +323,33 @@ class ZoomPan extends Component {
             </div>
 
           </div>
-          <div className='InfoContainer'>
+          <div className='InfoContainer' style={{ display: this.state.weather == 'hidden' ? 'none' : 'block' }}>
+          <button onClick={this.switchToData}>
+                Data
+          </button>
+          <div style={{
+            display: this.state.selectedCountry == '' ? 'none' : 'block'
+            }}>
             <Weather lon={this.state.lon} lat={this.state.lat} />
+            </div>
+            <div style={{
+              display: this.state.selectedCountry == '' ? 'none' : 'block'
+              }}>
             <News country={this.state.selectedCountry} />
+            </div>
 
           </div>
-        </div>
-        <JoinBars country={this.state.selectedCountry} secondcountry={this.state.hoverCountry} />
+          
+          <div className='GraphContainer' style={{display: this.state.graphs == 'hidden' ? 'none' : 'block' }}>
+          <button onClick={this.switchToWeather}>
+               News
+          </button>
         <FactBook country={this.state.selectedCountry} secondcountry={this.state.hoverCountry} />
         
-      </div>
+        </div>
+        </div>
+        
+
     )
   }
 }

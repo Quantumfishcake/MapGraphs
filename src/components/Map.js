@@ -24,7 +24,7 @@ class Map extends React.Component {
     const width = 1100
     const height = 650
     return (
-      <div className='mapContainer' saffsa='sfafsa'>
+      <div className='mapContainer2'>
         {/* <svg width={width} height={height}>
         <RadialGradient
           id="geo_mercator_radial"

@@ -32,8 +32,8 @@ const Label = ({ x, y, children })  => {
       textAnchor="middle"
       x={x}
       y={y}
-      dy=".33em"
-      fontSize={9}
+      dy=".66em"
+      fontSize={12}
     >
       {children}
     </text>
@@ -52,6 +52,7 @@ class Pies extends React.Component {
       languages: [],
       languages2: [],
       ageGroups: [],
+      ageGroups2: [],
       data: [{
         age: 20,
         mortality_percent: 10
@@ -66,13 +67,14 @@ class Pies extends React.Component {
       this.setState({ languages, ageGroups })
     }
     if (newProps.languages2 != undefined){
-      const languages2 = convertstring(newProps.languages2.Languages)
-      this.setState({ languages2 })
+      const languages2 = convertstring(newProps.languages2.Languages.text)
+      const ageGroups2 = convertAgeGroups(newProps.languages2['Age structure'])
+      this.setState({ languages2, ageGroups2 })
     } 
   }
 
   render(){
-    const {languages, languages2, ageGroups } = this.state
+    const {languages, languages2, ageGroups, ageGroups2 } = this.state
     const width = 700
     const height = 700
     const events = false
@@ -131,6 +133,22 @@ class Pies extends React.Component {
               innerRadius={radius - 170}
               fill={d => colorScale2[d.index] }
               fillOpacity={d => 1 / 1 }
+              cornerRadius={3}
+              centroid={(centroid, arc) => {
+                const [x, y] = centroid;
+                const { startAngle, endAngle } = arc;
+                if (endAngle - startAngle < .05) return null;
+                return <Label x={x} y={y}>{arc.data.group}</Label>;
+              }}
+            />
+          </Group>
+          <Group top={height / 2 - margin.top} left={width / 2}>
+            <Pie
+              data={ageGroups2}
+              pieValue={d => d.percent}
+              outerRadius={radius - 180}
+              fill={'blue' }
+              fillOpacity={d => 1/ d.index }
               cornerRadius={3}
               centroid={(centroid, arc) => {
                 const [x, y] = centroid;
