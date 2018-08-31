@@ -38,9 +38,9 @@ class Weather extends React.Component {
       <div className='weather'>
         <div>Weather</div>
         <div>City: {data && data.name}</div>
-        <div>Temp:{data && data.main && data.main.temp}</div>
-        <div>Wind Speed:{data && data.wind && data.wind.speed}</div>
-        <div>Outlook:{data && data.weather && data.weather[0].description}{data && data.weather && getWeatherIcon(data.weather[0].description)} </div>
+        <div style={{fontSize: 20}}>{data && data.main && data.main.temp}℃</div>
+        {/* <div>Wind Speed:{data && data.wind && data.wind.speed}</div> */}
+        <div>{data && data.weather && getWeatherIcon(data.weather[0].description)} </div>
       </div>
     )
   }

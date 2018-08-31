@@ -27,13 +27,12 @@ class PopulationComparison extends Component {
       const result2 = json.map((x) => {
         return { x: x.year, y: x.total }
       })
-      console.log(result2)
       this.setState({
         data: result2,
         country: newProps.country
       });
     });
-  } else if (newProps.secondcountry) {
+  } else if (newProps.secondcountry && newProps.country != '') {
     fetch(`http://api.population.io/1.0/population/${newProps.secondcountry}/60/`)
     .then(res => {
       return res.json()
@@ -43,23 +42,20 @@ class PopulationComparison extends Component {
       const result2 = json.map((x) => {
         return { x: x.year, y: x.total }
       })
-      console.log(result2)
       this.setState({
         data2: result2,
         country2: newProps.secondcountry
       });
     });
   }
-  console.log(this.state)
 }
 
 render() {
   const options = {
     animationEnabled: true,
-    colorSet: "colorSet2",
-    title: {
-      text: "Population of 60yr olds"
-    },
+    colorSet: "colorSet1",
+    height: 275,
+    margin: 0,
     axisX: {
 
     },
@@ -79,19 +75,18 @@ render() {
       type: "column",
       name: this.state.country,
       showInLegend: true,
-      xValueFormatString: "YYYY",
-      yValueFormatString: "$#,##0",
+      yValueFormatString: "#,##0",
       dataPoints: this.state.data
     },{
       type: "line",
       name: this.state.country2,
       showInLegend: true,
-      yValueFormatString: "$#,##0",
+      yValueFormatString: "#,##0",
       dataPoints: this.state.data2
     }]
   }
   return (
-  <div>
+  <div className='cheatChart'>
     <CanvasJSChart options = {options}
        onRef={ref => this.chart = ref}
     />

@@ -12,7 +12,7 @@ class News extends React.Component {
 
     componentWillReceiveProps = (newProps) => {
         if (this.state.search === '' && newProps != ('' || undefined)) {
-            fetch(`https://newsapi.org/v2/top-headlines?country=${this.changeCountryName(newProps.country)}&pageSize=5&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
+            fetch(`https://newsapi.org/v2/top-headlines?country=${this.changeCountryName(newProps.country)}&pageSize=8&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
                 .then(res => {
                     return res.json();
                 })
@@ -22,7 +22,7 @@ class News extends React.Component {
                     console.log(this.state)
                 });
         } else {
-            fetch(`https://newsapi.org/v2/top-headlines?country=${this.changeCountryName(newProps.country)}&category=${this.state.search}&pageSize=5&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
+            fetch(`https://newsapi.org/v2/top-headlines?country=${this.changeCountryName(newProps.country)}&category=${this.state.search}&pageSize=8&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
                 .then(res => {
                     return res.json();
                 })
@@ -48,7 +48,7 @@ class News extends React.Component {
     }
     _handleSubmit = (event) => {
         event.preventDefault()
-        this.props.country != '' ? fetch(`https://newsapi.org/v2/top-headlines?country=${this.changeCountryName(this.props.country)}&category=${this.state.search}&pageSize=5&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
+        this.props.country != '' ? fetch(`https://newsapi.org/v2/top-headlines?country=${this.changeCountryName(this.props.country)}&category=${this.state.search}&pageSize=8&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
         .then(res => {
             return res.json();
         })
@@ -56,7 +56,7 @@ class News extends React.Component {
             console.log(json)
             this.setState({ data: json.articles })
             console.log(this.state)
-        }) : fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${this.state.search}&pageSize=5&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
+        }) : fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${this.state.search}&pageSize=8&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
         .then(res => {
             return res.json();
         })
@@ -73,21 +73,23 @@ class News extends React.Component {
         console.log(this.state)
         return (
             <div className='newsContainer'>
-                <div>News</div>
-                {data.map((x) =>
-                    <div>
-                        <ul>
-                            <a href={x.url} target="_blank">{x.title}</a>
-                            {x.urlToImage ? <img src={x.urlToImage} style={{ height: 50 }} /> : false}</ul>
-                    </div>
-                )}
-
-                <form onSubmit={this._handleSubmit}>
+            <form onSubmit={this._handleSubmit}>
                     <label>
                         Search:
                         <input type='text' onChange={this._handleChange} value={this.state.search} />
                     </label>
                 </form>
+                <div>News</div>
+                {data.map((x) =>
+                    <div>
+                        <ul>
+                            <div className='newsText'>
+                            <a href={x.url} target="_blank" >{x.title} </a>
+                            </div>
+                            {x.urlToImage ? <img src={x.urlToImage} style={{ height: 40 }} className='newsImage' /> : false}</ul>
+                    </div>
+                )}
+                
             </div>
         )
     }

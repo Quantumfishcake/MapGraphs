@@ -4,8 +4,7 @@ import { Group } from '@vx/group'
 import { Grid } from '@vx/grid'
 import { AxisBottom } from '@vx/axis'
 import { cityTemperature } from '@vx/mock-data'
-import { scaleBand, scaleLinear, scaleOrdinal, scaleQuantize } from '@vx/scale'
-import { timeParse, timeFormat } from 'd3-time-format'
+import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale'
 import { withTooltip, Tooltip } from '@vx/tooltip'
 import { LegendOrdinal } from '@vx/legend'
 import { extent, max } from 'd3-array'
@@ -94,7 +93,7 @@ export default withTooltip(
 
     const zScale = scaleOrdinal({
       domain: keys33,
-      range: ['#6c5efb', '#c998ff', '#a44afe']
+      range: ['#c998ff','#6c5efb' ,'#a44afe']
     })
 
     let tooltipTimeout
@@ -102,37 +101,26 @@ export default withTooltip(
     return (
       <div style={{ position: 'relative' }}>
         <svg width={width} height={height}>
-          <rect x={0} y={0} width={width} height={height} fill={`#eaedff`} rx={14} />
-          <Grid
-          top={margin.top}
-          left={margin.left}
-          xScale={xScale}
-          yScale={yScale}
-          width={xMax}
-          height={yMax}
-          stroke={'black'}
-          strokeOpacity={0.1}
-          xOffset={xScale.bandwidth() / 2}
-          />
+          <rect x={0} y={0} width={width} height={height} fill={`white`} rx={14} />
           <BarStack
-          top={margin.top}
-          data={data33}
-          keys={keys33}
-          height={yMax}
-          x={x}
-          xScale={xScale}
-          yScale={yScale}
-          zScale={zScale}
-          onClick={data => event => {
+            top={margin.top}
+            data={data33}
+            keys={keys33}
+            height={yMax}
+            x={x}
+            xScale={xScale}
+            yScale={yScale}
+            zScale={zScale}
+            onClick={data => event => {
               if (!events) return
               alert(`clicked: ${JSON.stringify(data)}`)
             }}
-          onMouseLeave={data => event => {
+            onMouseLeave={data => event => {
               tooltipTimeout = setTimeout(() => {
                 hideTooltip()
               }, 300)
             }}
-          onMouseMove={data => event => {
+            onMouseMove={data => event => {
               if (tooltipTimeout) clearTimeout(tooltipTimeout)
               const top = event.clientY - margin.top - data.height
               const left = xScale(data.x) + data.width + data.paddingInner * data.step / 2
@@ -144,11 +132,11 @@ export default withTooltip(
             }}
           />
           <AxisBottom
-          scale={xScale}
-          top={yMax + margin.top}
-          stroke='#a44afe'
-          tickStroke='#a44afe'
-          tickLabelProps={(value, index) => ({
+            scale={xScale}
+            top={yMax + margin.top}
+            stroke='#a44afe'
+            tickStroke='#a44afe'
+            tickLabelProps={(value, index) => ({
               fill: '#a44afe',
               fontSize: 11,
               textAnchor: 'middle'
@@ -156,7 +144,7 @@ export default withTooltip(
           />
         </svg>
         <div
-        style={{
+          style={{
             position: 'absolute',
             top: margin.top / 2 - 10,
             width: '100%',
@@ -166,10 +154,10 @@ export default withTooltip(
           }}
         >
           <LegendOrdinal scale={zScale} direction='row' labelMargin='0 15px 0 0' />
-      </div>
+        </div>
         {tooltipOpen && (
           <Tooltip
-            top={tooltipTop}
+            top={tooltipTop - 400}
             left={tooltipLeft}
             style={{
               minWidth: 60,
@@ -182,8 +170,8 @@ export default withTooltip(
             </div>
             <div>{tooltipData.data[tooltipData.key]}</div>
             <div>
-            <small>{tooltipData.xFormatted}</small>
-          </div>
+              <small>{tooltipData.xFormatted}</small>
+            </div>
           </Tooltip>
         )}
       </div>

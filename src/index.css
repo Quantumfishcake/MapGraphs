@@ -3,8 +3,10 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
-
-
+.slider {
+  position: relative;
+  bottom: 50px;
+}
 
 .wsdm-tooltip {
   display: none;
@@ -31,10 +33,53 @@ body {
 
 .MainContainer2{
   display: grid;
-  grid-template-columns: 82.5% 17.5%;
+  grid-template-columns: 75% 25%;
+  grid-template-rows: 1fr;
 }
 .MainContainer{
   display: grid;
   grid-template-columns: 100%;
+}
+
+.GeographyContainer {
+  text-align: left;
+}
+.newsImage{
+  float:left;
+}
+
+.newsText{
+  height: 40px;
+}
+
+.chart1{
+  display: inline-block;
+  width: 275;
+}
+.chart2{
+  display: inline-block;
+  width: 275;
+}
+.chart3{
+  display: inline-block;
+  width: 275;
+}
+.chart4{
+  display: inline-block;
+  width: 275;
+}
+.chart5{
+  display: inline-block;
+  width: 275;
+}
+
+.Graphs2{
+  display: grid;
+  grid-template-columns: 25% 25% 25% 55%;
+}
+
+.cheatChart{
+  max-height: 300;
+  margin-top: -50;
 }
 

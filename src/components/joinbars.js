@@ -10,8 +10,8 @@ import _ from 'lodash'
 
 
 // accessors
-const height = 300
-const  width = 400
+const height = 250
+const  width = 250
 
 class JoinBars extends React.Component {
     constructor(props) {
@@ -109,18 +109,6 @@ class JoinBars extends React.Component {
                     zScale={zScale}
                     rx={4}
 
-                />
-                <AxisBottom
-                    scale={x0Scale}
-                    top={yMax + margin.top}
-                    stroke='#e5fd3d'
-                    tickStroke='#e5fd3d'
-                    hideAxisLine
-                    tickLabelProps={(value, index) => ({
-                        fill: '#e5fd3d',
-                        fontSize: 11,
-                        textAnchor: 'middle',
-                    })}
                 />
             </svg>
         );

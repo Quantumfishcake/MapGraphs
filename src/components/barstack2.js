@@ -110,17 +110,7 @@ export default withTooltip(
       <div style={{ position: 'relative' }}>
         <svg width={width} height={height}>
           <rect x={0} y={0} width={width} height={height} fill={`white`} rx={14} />
-          <Grid
-            top={margin.top}
-            left={margin.left}
-            xScale={xScale}
-            yScale={yScale}
-            width={xMax}
-            height={yMax}
-            stroke={'black'}
-            strokeOpacity={0.1}
-            xOffset={xScale.bandwidth() / 2}
-          />
+        
           <BarStack
             top={margin.top}
             data={data33}
@@ -172,7 +162,7 @@ export default withTooltip(
         </div>
         {tooltipOpen && (
           <Tooltip
-            top={tooltipTop}
+            top={tooltipTop - 400}
             left={tooltipLeft}
             style={{
               minWidth: 60,

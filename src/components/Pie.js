@@ -16,6 +16,15 @@ const colorScale2 = chroma
   .mode('lch')
   .colors(12)
 
+  const colorScale3 = chroma
+  .scale([
+    '#FF6E40',
+    '#FFD740',
+    '#00B8D4',
+  ])
+  .mode('lch')
+  .colors(6)
+
 const convertstring = flow(
   split(', '),
   map(split(' ')),
@@ -75,14 +84,14 @@ class Pies extends React.Component {
 
   render(){
     const {languages, languages2, ageGroups, ageGroups2 } = this.state
-    const width = 700
-    const height = 700
+    const width = 250
+    const height = 250
     const events = false
     const margin = {
-      top: 30,
-      left: 20,
-      right: 20,
-      bottom: 110,
+      top: 10,
+      left: 10,
+      right: 10,
+      bottom: 10,
     }
     if (width < 10) return null;
     const radius = Math.min(width, height) / 2;
@@ -93,22 +102,22 @@ class Pies extends React.Component {
             <Pie
               data={languages}
               pieValue={d => d.percent}
-              outerRadius={radius - 80}
-              innerRadius={radius - 170}
+              outerRadius={radius }
+              innerRadius={radius - 60}
               fill={d => colorScale2[d.index] }
               fillOpacity={d => 1 / 1 }
               cornerRadius={3}
               centroid={(centroid, arc) => {
                 const [x, y] = centroid;
                 const { startAngle, endAngle } = arc;
-                if (endAngle - startAngle < .05) return null;
+                if (endAngle - startAngle < .5) return null;
                 return <Label x={x} y={y}>{arc.data.language}</Label>;
               }}
             />
               <Pie
               data={languages2}
               pieValue={d => d.percent}
-              outerRadius={radius - 180}
+              outerRadius={radius - 70}
               innerRadius={0}
               fill={'blue'}
               fillOpacity={d => 1 / d.index }
@@ -118,7 +127,7 @@ class Pies extends React.Component {
               centroid={(centroid, arc) => {
                 const [x, y] = centroid;
                 const { startAngle, endAngle } = arc;
-                if (endAngle - startAngle < .05) return null;
+                if (endAngle - startAngle < .5) return null;
                 return <Label x={x} y={y}>{arc.data.language}</Label>;
               }}
             />
@@ -129,9 +138,9 @@ class Pies extends React.Component {
             <Pie
               data={ageGroups}
               pieValue={d => d.percent}
-              outerRadius={radius - 80}
-              innerRadius={radius - 170}
-              fill={d => colorScale2[d.index] }
+              outerRadius={radius}
+              innerRadius={radius - 60}
+              fill={d => colorScale3[d.index] }
               fillOpacity={d => 1 / 1 }
               cornerRadius={3}
               centroid={(centroid, arc) => {
@@ -146,7 +155,7 @@ class Pies extends React.Component {
             <Pie
               data={ageGroups2}
               pieValue={d => d.percent}
-              outerRadius={radius - 180}
+              outerRadius={radius - 70}
               fill={'blue' }
               fillOpacity={d => 1/ d.index }
               cornerRadius={3}

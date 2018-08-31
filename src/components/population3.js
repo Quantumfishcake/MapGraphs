@@ -21,7 +21,7 @@ const yStock = d => d.population
 const bisectDate = bisector(d => d.year).left
 
 class Population3 extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       data: []
@@ -29,26 +29,26 @@ class Population3 extends React.Component {
     this.handleTooltip = this.handleTooltip.bind(this)
   }
 
-    componentWillReceiveProps = (newProps) => {
-      csv(population, (data) => {
-          var result = data.filter((x) => {
-              return x['Country Name'] == newProps.country
-          })
-          if (result != '') {
-              var result2 = Object.keys(result[0]).map(function (e) {
-                  return { year: e, population: Number(result[0][e]) }
-              })
-              var result3 = result2.slice(0, -5)
-              this.setState({
-                  data: result3,
+  componentWillReceiveProps = (newProps) => {
+    csv(population, (data) => {
+      var result = data.filter((x) => {
+        return x['Country Name'] == newProps.country
+      })
+      if (result != '') {
+        var result2 = Object.keys(result[0]).map(function (e) {
+          return { year: e, population: Number(result[0][e]) }
+        })
+        var result3 = result2.slice(0, -5)
+        this.setState({
+          data: result3,
 
-              })
-          }
-      });
+        })
+      }
+    });
 
   }
 
-  handleTooltip ({ event, data, xStock, xScale, yScale }) {
+  handleTooltip({ event, data, xStock, xScale, yScale }) {
     console.log(event)
     console.log(data)
     const { showTooltip } = this.props
@@ -67,12 +67,12 @@ class Population3 extends React.Component {
       tooltipTop: yScale(d.population)
     })
   }
-  render () {
+  render() {
     const data = this.state.data
     console.log(this.state.data)
     const {
-      width = 500,
-      height = 500,
+      width = 250,
+      height = 280,
       margin = {
         top: 10,
         left: 10,
@@ -99,12 +99,12 @@ class Population3 extends React.Component {
     })
     const yScale = scaleLinear({
       range: [yMax, 0],
-      domain: [min(data, yStock) / 2, max(data, yStock) + yMax ],
-  });
-  const yScale2 = scaleLinear({
-    range: [height, 0],
-    domain: [min(data, yStock) / 2, max(data, yStock) + yMax ],
-});
+      domain: [min(data, yStock) / 2, max(data, yStock) + yMax],
+    });
+    const yScale2 = scaleLinear({
+      range: [height, 0],
+      domain: [min(data, yStock) / 2, max(data, yStock) + yMax],
+    });
 
     return (
       <div>
@@ -118,7 +118,7 @@ class Population3 extends React.Component {
             rx={14}
           />
           <defs>
-              <linearGradient
+            <linearGradient
               id='gradient'
               x1='0%'
               y1='0%'
@@ -127,66 +127,59 @@ class Population3 extends React.Component {
             >
               <stop
                 offset='0%'
-                stopColor='blue'
+                stopColor='#6c5efb'
                 stopOpacity={1}
               />
               <stop
-                  offset='100%'
-                  stopColor='green'
-                  stopOpacity={0.2}
+                offset='100%'
+                stopColor='#c998ff'
+                stopOpacity={0.2}
               />
             </linearGradient>
-            </defs>
-            <GridRows
-                lineStyle={{ pointerEvents: 'none' }}
-                scale={yScale}
-                width={xMax}
-                strokeDasharray='2,2'
-                stroke='rgba(255,255,255,0.3)'
+          </defs>
+          <GridRows
+            lineStyle={{ pointerEvents: 'none' }}
+            scale={yScale}
+            width={xMax}
+            strokeDasharray='2,2'
+            stroke='rgba(255,255,255,0.3)'
           />
           <GridColumns
-              lineStyle={{ pointerEvents: 'none' }}
-              scale={xScale}
-              height={yMax}
-              strokeDasharray='2,2'
-              stroke='rgba(255,255,255,0.3)'
+            lineStyle={{ pointerEvents: 'none' }}
+            scale={xScale}
+            height={yMax}
+            strokeDasharray='2,2'
+            stroke='rgba(255,255,255,0.3)'
           />
           <AreaClosed
-              data={data}
-              xScale={xScale}
-              yScale={yScale}
-              x={xStock}
-              y={yStock}
-              strokeWidth={1}
-              stroke={'url(#gradient)'}
-              fill={'url(#gradient)'}
-              curve={curveMonotoneX}
+            data={data}
+            xScale={xScale}
+            yScale={yScale}
+            x={xStock}
+            y={yStock}
+            strokeWidth={1}
+            stroke={'url(#gradient)'}
+            fill={'url(#gradient)'}
+            curve={curveMonotoneX}
           />
-            <AxisLeft
-                            scale={yScale2}
-                            top={0}
-                            left={0}
-                            label={''}
-                            stroke={'#1b1a1e'}
-                            tickTextFill={'#1b1a1e'}
-                        />
 
-                        <AxisBottom
-                            scale={xScale}
-                            top={yMax}
-                            label={'Year'}
-                            stroke={'#1b1a1e'}
-                            tickTextFill={'#1b1a1e'}
-                        />
+
+          <AxisBottom
+            scale={xScale}
+            top={yMax}
+            label={'Year'}
+            stroke={'#1b1a1e'}
+            tickTextFill={'#1b1a1e'}
+          />
           <Bar
-              x={0}
-              y={0}
-              width={width}
-              height={width}
-              fill='transparent'
-              rx={14}
-              data={data}
-              onTouchStart={data => event =>
+            x={0}
+            y={0}
+            width={width}
+            height={width}
+            fill='transparent'
+            rx={14}
+            data={data}
+            onTouchStart={data => event =>
               this.handleTooltip({
                 event,
                 data,
@@ -194,7 +187,7 @@ class Population3 extends React.Component {
                 xScale,
                 yScale
               })}
-              onTouchMove={data => event =>
+            onTouchMove={data => event =>
               this.handleTooltip({
                 event,
                 data,
@@ -202,7 +195,7 @@ class Population3 extends React.Component {
                 xScale,
                 yScale
               })}
-              onMouseMove={data => event =>
+            onMouseMove={data => event =>
               this.handleTooltip({
                 event,
                 data,
@@ -210,7 +203,7 @@ class Population3 extends React.Component {
                 xScale,
                 yScale
               })}
-              onMouseLeave={data => event => hideTooltip()}
+            onMouseLeave={data => event => hideTooltip()}
           />
           {tooltipData && (
             <g>
@@ -223,24 +216,24 @@ class Population3 extends React.Component {
                 strokeDasharray='2,2'
               />
               <circle
-                  cx={tooltipLeft}
-                  cy={tooltipTop + 1}
-                  r={4}
-                  fill='black'
-                  fillOpacity={0.1}
-                  stroke='black'
-                  strokeOpacity={0.1}
-                  strokeWidth={2}
-                  style={{ pointerEvents: 'none' }}
+                cx={tooltipLeft}
+                cy={tooltipTop + 1}
+                r={4}
+                fill='black'
+                fillOpacity={0.1}
+                stroke='black'
+                strokeOpacity={0.1}
+                strokeWidth={2}
+                style={{ pointerEvents: 'none' }}
               />
               <circle
-                  cx={tooltipLeft}
-                  cy={tooltipTop}
-                  r={4}
-                  fill='rgba(92, 119, 235, 1.000)'
-                  stroke='white'
-                  strokeWidth={2}
-                  style={{ pointerEvents: 'none' }}
+                cx={tooltipLeft}
+                cy={tooltipTop}
+                r={4}
+                fill='rgba(92, 119, 235, 1.000)'
+                stroke='white'
+                strokeWidth={2}
+                style={{ pointerEvents: 'none' }}
               />
             </g>
           )}
@@ -258,14 +251,14 @@ class Population3 extends React.Component {
               {`${yStock(tooltipData)}`}
             </Tooltip>
             <Tooltip
-                top={yMax - 14}
-                left={tooltipLeft}
-                style={{
+              top={yMax - 14}
+              left={tooltipLeft}
+              style={{
                 transform: 'translateX(-50%)'
               }}
             >
-                {xStock(tooltipData)}
-              </Tooltip>
+              {xStock(tooltipData)}
+            </Tooltip>
           </div>
         )}
       </div>
