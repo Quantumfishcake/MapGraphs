@@ -6,6 +6,10 @@ body {
 .slider {
   position: relative;
   bottom: 50px;
+  height: 50px;
+}
+.rangeslider{
+  height: 50px;
 }
 
 .wsdm-tooltip {
@@ -54,11 +58,11 @@ body {
 
 .chart1{
   display: inline-block;
-  width: 275;
+  width: 300;
 }
 .chart2{
   display: inline-block;
-  width: 275;
+  width: 300;
 }
 .chart3{
   display: inline-block;

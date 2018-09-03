@@ -19,6 +19,7 @@ import FactBook from './factbook.js'
 import FactBook2 from './factbook2.js'
 import FactBook3 from './factbook3.js'
 import Geography2 from './geography.js'
+import map from './world-50m-with-population.json'
 
 
 const wrapperStyles = {
@@ -230,6 +231,7 @@ class ZoomPan extends Component {
     })
   }
   render() {
+    const {populationData} = this.state
     return (
 
       <div className={this.state.selectedCountry == '' ? 'MainContainer' : 'MainContainer2'} >
@@ -266,7 +268,7 @@ class ZoomPan extends Component {
               }}
             >
               <ZoomableGroup center={this.state.center} zoom={this.state.zoom}>
-                <Geographies geography={"/world-50m-with-population.json"} disableOptimization>
+                <Geographies geography={map} disableOptimization>
                   {(geographies, projection) => geographies.map((geography, i) => geography.id !== "ATA" && (
                     <Geography
                       key={i}
@@ -279,7 +281,7 @@ class ZoomPan extends Component {
 
                       style={{
                         default: {
-                          fill: this.state.populationData == 1 ? this.state.selectedCountry == geography.properties.admin ? 'red' : 'lightgrey' : this.state.populationData == 2 ? popScale(geography.properties.pop_est) : this.state.populationData == 4 ? colorScale2[income_group.indexOf(geography.properties.income_grp)] : colorScale[subregions.indexOf(geography.properties.subregion)],
+                          fill: populationData == 1 ? this.state.selectedCountry == geography.properties.admin ? 'red' : 'lightgrey' : populationData == 2 ? popScale(geography.properties.pop_est) : populationData == 4 ? colorScale2[income_group.indexOf(geography.properties.income_grp)] : colorScale[subregions.indexOf(geography.properties.subregion)],
 
                           stroke: "#607D8B",
                           strokeWidth: 0.75,
