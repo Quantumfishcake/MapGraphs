@@ -30,7 +30,7 @@ const convertstring = flow(
   map(split(' ')),
   map(item => ({
     language: item[0],
-    percent: replace(item[1], '%', '')
+    percent: item.length == 2 ? replace(item[1], '%', '') : replace(item[item.length - 1], '%', '')
   }))
 )
 
@@ -50,7 +50,7 @@ const Label = ({ x, y, children })  => {
 } 
 
 const convertAgeGroups = mapWithKey((value, key) => ({
-  group: key,
+  group: key.split(' ')[0],
   percent: value.text.split(' ')[0].replace('%', ''),
 }))
 
@@ -102,10 +102,10 @@ class Pies extends React.Component {
             <Pie
               data={languages}
               pieValue={d => d.percent}
-              outerRadius={radius }
+              outerRadius={radius - 20 }
               innerRadius={radius - 60}
-              fill={d => colorScale2[d.index] }
-              fillOpacity={d => 1 / 1 }
+              fill={'#c998ff'}
+              fillOpacity={d => 1 / d.index }
               cornerRadius={3}
               centroid={(centroid, arc) => {
                 const [x, y] = centroid;
@@ -119,7 +119,7 @@ class Pies extends React.Component {
               pieValue={d => d.percent}
               outerRadius={radius - 70}
               innerRadius={0}
-              fill={'blue'}
+              fill={'#6c5efb'}
               fillOpacity={d => 1 / d.index }
               padRadius ={10}
               cornerRadius={3}
@@ -138,10 +138,10 @@ class Pies extends React.Component {
             <Pie
               data={ageGroups}
               pieValue={d => d.percent}
-              outerRadius={radius}
+              outerRadius={radius - 20}
               innerRadius={radius - 60}
-              fill={d => colorScale3[d.index] }
-              fillOpacity={d => 1 / 1 }
+              fill={'#c998ff'}
+              fillOpacity={d => 1 / d.index }
               cornerRadius={3}
               centroid={(centroid, arc) => {
                 const [x, y] = centroid;
@@ -156,7 +156,7 @@ class Pies extends React.Component {
               data={ageGroups2}
               pieValue={d => d.percent}
               outerRadius={radius - 70}
-              fill={'blue' }
+              fill={'#6c5efb' }
               fillOpacity={d => 1/ d.index }
               cornerRadius={3}
               centroid={(centroid, arc) => {

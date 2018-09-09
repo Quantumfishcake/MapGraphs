@@ -2,7 +2,7 @@ import React from 'react'
 import { BarStack } from '@vx/shape'
 import { Group } from '@vx/group'
 import { Grid } from '@vx/grid'
-import { AxisBottom } from '@vx/axis'
+import { AxisBottom, AxisTop } from '@vx/axis'
 import { scaleBand, scaleLinear, scaleOrdinal, scaleLog } from '@vx/scale'
 import { withTooltip, Tooltip } from '@vx/tooltip'
 import { LegendOrdinal } from '@vx/legend'
@@ -64,13 +64,13 @@ export default withTooltip(
     const GDPperCapita2 = economy2['GDP - per capita (PPP)'] && economy2['GDP - per capita (PPP)'].text.split(' ')[0].replace('$', '').replace(',', '')
 
     const data33 = [
-      { Budget: 'Revenue(Billions)', [countryName]: (countryRevenue) /10, [countryName2]: (countryRevenue2) /10 },
+      { Budget: 'Revenue', [countryName]: (countryRevenue) /10, [countryName2]: (countryRevenue2) /10 },
       { Budget: 'Expenditure', [countryName]: countryExpenditure /10, [countryName2]: countryExpenditure2 /10 },
       { Budget: 'Unemployment', [countryName]: unemploymentRate, [countryName2]: unemploymentRate2 },
-      { Budget: 'Debt(10Billions)', [countryName]: Debt /10 , [countryName2]: Debt2 /10 },
+      { Budget: 'Debt', [countryName]: Debt /10 , [countryName2]: Debt2 /10 },
       { Budget: 'Poverty Rate', [countryName]: PovertyRate, [countryName2]: PovertyRate2 },
-      { Budget: 'GDP per Capita', [countryName]: GDPperCapita / 1000, [countryName2]: GDPperCapita2 / 1000 },
-      { Budget: 'GDP(10Billions)', [countryName]: GDP /10, [countryName2]: GDP2/10 }
+      { Budget: 'GDP PPP', [countryName]: GDPperCapita / 1000, [countryName2]: GDPperCapita2 / 1000 },
+      { Budget: 'GDP', [countryName]: GDP /10, [countryName2]: GDP2/10 }
     ]
     const keys33 = Object.keys(data33[0]).filter(d => d !== 'Budget')
 
@@ -109,7 +109,7 @@ export default withTooltip(
     return (
       <div style={{ position: 'relative' }}>
         <svg width={width} height={height}>
-          <rect x={0} y={0} width={width} height={height} fill={`white`} rx={14} />
+          <rect x={0} y={0} width={width} height={height} fill={`#282b30`} rx={14} />
         
           <BarStack
             top={margin.top}
@@ -142,9 +142,10 @@ export default withTooltip(
             stroke='#a44afe'
             tickStroke='#a44afe'
             tickLabelProps={(value, index) => ({
-              fill: '#a44afe',
+              fill: 'white',
               fontSize: 11,
-              textAnchor: 'middle'
+              textAnchor: 'start',
+              transform: 'rotate(45 ' + xScale(value) + ',0)'
             })}
           />
         </svg>
@@ -155,7 +156,8 @@ export default withTooltip(
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
-            fontSize: '14px'
+            fontSize: '14px',
+            color: 'white'
           }}
         >
           <LegendOrdinal scale={zScale} direction='row' labelMargin='0 15px 0 0' />

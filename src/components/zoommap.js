@@ -18,7 +18,6 @@ import Weather from './weather.js'
 import FactBook from './factbook.js'
 import FactBook2 from './factbook2.js'
 import FactBook3 from './factbook3.js'
-import Geography2 from './geography.js'
 import map from './world-50m-with-population.json'
 
 
@@ -231,140 +230,147 @@ class ZoomPan extends Component {
     })
   }
   render() {
-    const {populationData} = this.state
+    const { populationData } = this.state
     return (
+      <div>
+        <div className={this.state.selectedCountry == '' ? 'MainContainer' : 'MainContainer2'} >
 
-      <div className={this.state.selectedCountry == '' ? 'MainContainer' : 'MainContainer2'} >
-        <div>
-          <button onClick={this.switchToPopulation}>
-            Population data
-          </button>
-          <button onClick={this.switchToRegions}>
-            World subregions
-          </button>
-          <button onClick={this.switchToStandard}>
-            Standard
-          </button>
-          <button onClick={this.switchToIncome}>
-            Income
-          </button>
-        </div>
-        <div style={wrapperStyles}>
-          <button onClick={this.handleReset}>
-            Reset
-          </button>
-        </div>
-        <div className='MapContainer' style={{ display: this.state.selectedCountry == '' ? 'block' : 'inline-block' }}>
-          <div style={this.state.selectedCountry == '' ? wrapperStyles : this.state.graphs == 'show' ? wrapperStyles3 : wrapperStyles2}>
-            <ComposableMap
-              projectionConfig={{
-                scale: 205,
-              }}
-              width={980}
-              height={500}
-              style={{
-                width: "100%",
-                height: "auto",
-              }}
-            >
-              <ZoomableGroup center={this.state.center} zoom={this.state.zoom}>
-                <Geographies geography={map} disableOptimization>
-                  {(geographies, projection) => geographies.map((geography, i) => geography.id !== "ATA" && (
-                    <Geography
-                      key={i}
-                      geography={geography}
-                      projection={projection}
-                      onMouseMove={this.handleMouseMove}
-                      onMouseLeave={this.handleMouseLeave}
-                      onClick={this.handleCountrySelection}
+          <div className='MapContainer' style={{ display: this.state.selectedCountry == '' ? 'block' : 'inline-block' }}>
+            <div style={this.state.selectedCountry == '' ? wrapperStyles : this.state.graphs == 'show' ? wrapperStyles3 : wrapperStyles2}>
+              <div className='mapButtons'>
+                <button onClick={this.switchToPopulation}>
+                  Population data
+                </button>
+                <button onClick={this.switchToRegions}>
+                  World subregions
+                </button>
+                <button onClick={this.switchToStandard}>
+                  Standard
+                </button>
+                <button onClick={this.switchToIncome}>
+                  Income
+                </button>
+                <div style={wrapperStyles}>
+                  <button onClick={this.handleReset}>
+                    Reset
+                </button>
+                </div>
+
+              </div>
+              <ComposableMap
+                projectionConfig={{
+                  scale: 205,
+                }}
+                width={900}
+                height={450}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                }}
+              >
+                <ZoomableGroup center={this.state.center} zoom={this.state.zoom}>
+                  <Geographies geography={map} disableOptimization>
+                    {(geographies, projection) => geographies.map((geography, i) => geography.id !== "ATA" && (
+                      <Geography
+                        key={i}
+                        geography={geography}
+                        projection={projection}
+                        onMouseMove={this.handleMouseMove}
+                        onMouseLeave={this.handleMouseLeave}
+                        onClick={this.handleCountrySelection}
 
 
-                      style={{
-                        default: {
-                          fill: populationData == 1 ? this.state.selectedCountry == geography.properties.admin ? 'red' : 'lightgrey' : populationData == 2 ? popScale(geography.properties.pop_est) : populationData == 4 ? colorScale2[income_group.indexOf(geography.properties.income_grp)] : colorScale[subregions.indexOf(geography.properties.subregion)],
+                        style={{
+                          default: {
+                            fill: populationData == 1 ? this.state.selectedCountry == geography.properties.admin ? '#99aab5' : 'lightgrey' : populationData == 2 ? popScale(geography.properties.pop_est) : populationData == 4 ? colorScale2[income_group.indexOf(geography.properties.income_grp)] : colorScale[subregions.indexOf(geography.properties.subregion)],
 
-                          stroke: "#607D8B",
-                          strokeWidth: 0.75,
-                          outline: "none",
-                        },
-                        hover: {
-                          fill: "red",
-                          stroke: "#607D8B",
-                          strokeWidth: 0.75,
-                          outline: "none",
-                        },
-                        pressed: {
-                          fill: "#FF5722",
-                          stroke: "#607D8B",
-                          strokeWidth: 0.75,
-                          outline: "none",
-                        },
-                      }}
-                    />
-                  ))}
-                </Geographies>
-                <Markers>
-                  {
-                    this.state.cities2.map((city, i) => (
-                      <Marker key={i} marker={city}>
-                        <circle
-                          index={i}
-                          cx={0}
-                          cy={0}
-                          r={this.state.zoom == 1 ? city.population / 1000000 : 10 / 10000000 * (city.population * 2) + 5}
-                          onClick={this.handleCitySelection}
-                          onMouseMove={this.handleMouseMove2}
-                          onMouseLeave={this.handleMouseLeave2}
-                          data-city={i}
-                          style={{
-                            default: { fill: "#666" },
-                            hover: { fill: "#999" },
-                            pressed: { fill: "#000" },
-                          }}
-                          stroke="green"
-                          fill='rgba(248, 248, 37, 0.78)'
-                        />
-                      </Marker>
-                    ))
-                  }
-                </Markers>
-              </ZoomableGroup>
+                            stroke: "#607D8B",
+                            strokeWidth: 0.75,
+                            outline: "none",
+                          },
+                          hover: {
+                            fill: "darkgrey",
+                            stroke: "#607D8B",
+                            strokeWidth: 0.75,
+                            outline: "none",
+                          },
+                          pressed: {
+                            fill: "darkgrey",
+                            stroke: "#607D8B",
+                            strokeWidth: 0.75,
+                            outline: "none",
+                          },
+                        }}
+                      />
+                    ))}
+                  </Geographies>
+                  <Markers>
+                    {
+                      this.state.cities2.map((city, i) => (
+                        <Marker key={i} marker={city}>
+                          <circle
+                            index={i}
+                            cx={0}
+                            cy={0}
+                            r={this.state.zoom == 1 ? city.population / 1000000 : 10 / 10000000 * (city.population * 2) + 5}
+                            onClick={this.handleCitySelection}
+                            onMouseMove={this.handleMouseMove2}
+                            onMouseLeave={this.handleMouseLeave2}
+                            data-city={i}
+                            style={{
+                              default: { fill: "#666" },
+                              hover: { fill: "#999" },
+                              pressed: { fill: "#000" },
+                            }}
+                            stroke="green"
+                            fill='rgba(201,152,255, 0.5)'
+                          />
+                        </Marker>
+                      ))
+                    }
+                  </Markers>
+                </ZoomableGroup>
 
-            </ComposableMap>
-            <div>{this.state.population}</div>
-            <SliderBar updatePop={this.handleChange} value={this.state.population} />
+              </ComposableMap>
+              <div>{this.state.population}</div>
+              <SliderBar updatePop={this.handleChange} value={this.state.population} />
+              <div className='GeographyContainer' style={{
+              display: this.state.selectedCountry == '' ? 'none' : this.state.weather == 'hidden' ? 'none' : 'block'
+            }}>
+            <FactBook3 country={this.state.selectedCountry} secondcountry={this.state.hoverCountry}/>
+            </div>
+            </div>
+
           </div>
-
-        </div>
-        <div className='InfoContainer' style={{ display: this.state.weather == 'hidden' ? 'none' : 'block' }}>
-          <button onClick={this.switchToData}>
-            Data
-          </button>
-          <div style={{
-            display: this.state.selectedCountry == '' ? 'none' : 'block'
-          }}>
-            <Weather lon={this.state.lon} lat={this.state.lat} />
+          <div className='InfoContainer' style={{ display: this.state.weather == 'hidden' ? 'none' : 'block' }}>
+            <button onClick={this.switchToData}>
+              Data
+            </button>
+            <div style={{
+              display: this.state.selectedCountry == '' ? 'none' : 'block'
+            }}>
+              <Weather lon={this.state.lon} lat={this.state.lat} />
+            </div>
+            <div style={{
+              display: this.state.selectedCountry == '' ? 'none' : 'block'
+            }}>
+              <News country={this.state.selectedCountry} />
+            </div>
+          
           </div>
-          <div style={{
-            display: this.state.selectedCountry == '' ? 'none' : 'block'
-          }}>
-            <News country={this.state.selectedCountry} />
-          </div>
-
-        </div>
-
-        <div className='GraphContainer' style={{ display: this.state.graphs == 'hidden' ? 'none' : 'block' }}>
-          <button onClick={this.switchToWeather}>
-            News
+        
+          <div className='GraphContainer' style={{ display: this.state.graphs == 'hidden' ? 'none' : 'block' }}>
+            <button onClick={this.switchToWeather}>
+              News
           </button>
-          <FactBook country={this.state.selectedCountry} secondcountry={this.state.hoverCountry} />
+            <FactBook country={this.state.selectedCountry} secondcountry={this.state.hoverCountry} />
 
-
+          </div>
         </div>
         <div className='GraphContainer2' style={{ display: this.state.graphs == 'hidden' ? 'none' : 'block' }}>
           <FactBook2 country={this.state.selectedCountry} secondcountry={this.state.hoverCountry} />
         </div>
-    
+
       </div>
 
 

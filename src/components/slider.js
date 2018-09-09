@@ -20,7 +20,7 @@ handleChange = value => {
   }
     render() {
         return(
-            <div>
+
             <div className='slider'>
             <Slider
                 min={50000}
@@ -31,7 +31,6 @@ handleChange = value => {
             />
             <div className='sliderdiv'>{this.state.age}</div>
             
-        </div>
         </div>
         
         )

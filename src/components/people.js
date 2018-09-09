@@ -10,11 +10,6 @@ import { LegendOrdinal } from '@vx/legend'
 import { extent, max } from 'd3-array'
 import { replace } from 'lodash'
 
-const data = cityTemperature.slice(0, 12)
-console.log(data)
-//
-
-// accessors
 const x = d => d.People
 const y = d => d.value
 
@@ -39,9 +34,6 @@ export default withTooltip(
   }) => {
     if (width < 10) return null
 
-    // {date: "20111001", New York: "63.4", San Francisco: "62.7", Austin: "72.2"}
-
-    // bounds
     const xMax = width
     const yMax = height - margin.top - 50
 
@@ -60,11 +52,11 @@ export default withTooltip(
     const medianAge2 = people2['Median age'] && people2['Median age'].total.text.split(' ')[0]
 
     const data33 = [
-      { People: 'Life Expectancy', [countryName]: (lifeExpectancy), [countryName2]: (lifeExpectancy2) },
-      { People: 'Population Growth', [countryName]: populationGrowthRate, [countryName2]: populationGrowthRate2 },
-      { People: 'Fertility Rate', [countryName]: fertilityRate, [countryName2]: fertilityRate2 },
+      { People: 'Life Exp', [countryName]: (lifeExpectancy), [countryName2]: (lifeExpectancy2) },
+      { People: 'Pop Growth', [countryName]: populationGrowthRate, [countryName2]: populationGrowthRate2 },
+      { People: 'Fert Rate', [countryName]: fertilityRate, [countryName2]: fertilityRate2 },
       { People: 'Obesity', [countryName]: obesity, [countryName2]: obesity2 },
-      { People: 'Median Age', [countryName]: medianAge, [countryName2]: medianAge2 }
+      { People: 'Med Age', [countryName]: medianAge, [countryName2]: medianAge2 }
 
     ]
     const keys33 = Object.keys(data33[0]).filter(d => d !== 'People')
@@ -101,7 +93,7 @@ export default withTooltip(
     return (
       <div style={{ position: 'relative' }}>
         <svg width={width} height={height}>
-          <rect x={0} y={0} width={width} height={height} fill={`white`} rx={14} />
+          <rect x={0} y={0} width={width} height={height} fill={`#282b30`} rx={14} />
           <BarStack
             top={margin.top}
             data={data33}
@@ -111,10 +103,6 @@ export default withTooltip(
             xScale={xScale}
             yScale={yScale}
             zScale={zScale}
-            onClick={data => event => {
-              if (!events) return
-              alert(`clicked: ${JSON.stringify(data)}`)
-            }}
             onMouseLeave={data => event => {
               tooltipTimeout = setTimeout(() => {
                 hideTooltip()
@@ -150,10 +138,11 @@ export default withTooltip(
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
-            fontSize: '14px'
+            fontSize: '14px',
+            color: 'white'
           }}
         >
-          <LegendOrdinal scale={zScale} direction='row' labelMargin='0 15px 0 0' />
+          <LegendOrdinal scale={zScale} direction='row' labelMargin='0 15px 0 0' color='white' />
         </div>
         {tooltipOpen && (
           <Tooltip

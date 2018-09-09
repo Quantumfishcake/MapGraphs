@@ -1,8 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import Pies from './Pie.js'
-import BarStack2 from './barstack2.js'
-import Geography from './geography.js'
+import Geography2 from './geography.js'
 import People from './people.js'
 import Population3 from './population3.js'
 import JoinBars from './joinbars.js'
@@ -77,6 +76,7 @@ class FactBook3 extends React.Component {
     return (
       <div>
         <div >
+          <Geography2 geography={geography && geography} country={country && country}/>
         </div>
       </div>
     )

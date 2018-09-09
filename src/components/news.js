@@ -73,20 +73,19 @@ class News extends React.Component {
         console.log(this.state)
         return (
             <div className='newsContainer'>
-            <form onSubmit={this._handleSubmit}>
+            <form onSubmit={this._handleSubmit} className='newsSearch'>
                     <label>
                         Search:
                         <input type='text' onChange={this._handleChange} value={this.state.search} />
                     </label>
                 </form>
-                <div>News</div>
                 {data.map((x) =>
-                    <div>
-                        <ul>
+                    <div className='newsShow'>
+                    {x.urlToImage ? <img src={x.urlToImage} style={{ height: 40 }} className='newsImage' /> : <img />}
                             <div className='newsText'>
                             <a href={x.url} target="_blank" >{x.title} </a>
                             </div>
-                            {x.urlToImage ? <img src={x.urlToImage} style={{ height: 40 }} className='newsImage' /> : false}</ul>
+                            
                     </div>
                 )}
                 

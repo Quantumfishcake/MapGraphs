@@ -18,7 +18,7 @@ class PopulationComparison extends Component {
   componentWillReceiveProps = (newProps) => {
     console.log(newProps.country)
     if(newProps.country != this.state.country) {
-    fetch(`http://api.population.io/1.0/population/${newProps.country}/60/`)
+    fetch(`http://api.population.io/1.0/population/${this.convertRussia(newProps.country)}/60/`)
     .then(res => {
       return res.json()
       
@@ -33,7 +33,7 @@ class PopulationComparison extends Component {
       });
     });
   } else if (newProps.secondcountry && newProps.country != '') {
-    fetch(`http://api.population.io/1.0/population/${newProps.secondcountry}/60/`)
+    fetch(`http://api.population.io/1.0/population/${this.convertRussia(newProps.secondcountry)}/60/`)
     .then(res => {
       return res.json()
       
@@ -48,6 +48,10 @@ class PopulationComparison extends Component {
       });
     });
   }
+}
+
+convertRussia = (country) => {
+  return country == 'Russia' ? 'Russian Federation' : country
 }
 
 render() {

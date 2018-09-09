@@ -29,23 +29,45 @@ class Population3 extends React.Component {
     this.handleTooltip = this.handleTooltip.bind(this)
   }
 
+  // componentWillReceiveProps = (newProps) => {
+  //   csv(population, (data) => {
+  //     var result = data.filter((x) => {
+  //       return x['Country Name'] == this.convertRussia(newProps.country)
+  //     })
+  //     if (result != '') {
+  //       var result2 = Object.keys(result[0]).map(function (e) {
+  //         return { year: e, population: Number(result[0][e]) }
+  //       })
+  //       var result3 = result2.slice(0, -5)
+  //       this.setState({
+  //         data: result3,
+
+  //       })
+  //     }
+  //   });
+
+  // }
   componentWillReceiveProps = (newProps) => {
-    csv(population, (data) => {
-      var result = data.filter((x) => {
-        return x['Country Name'] == newProps.country
+    console.log(newProps.country)
+    if(newProps.country != this.state.country) {
+    fetch(`http://api.population.io/1.0/population/${this.convertRussia(newProps.country)}/60/`)
+    .then(res => {
+      return res.json()
+      
+    })
+    .then(json => {
+      const result2 = json.map((x) => {
+        return { year: x.year, population: x.total }
       })
-      if (result != '') {
-        var result2 = Object.keys(result[0]).map(function (e) {
-          return { year: e, population: Number(result[0][e]) }
-        })
-        var result3 = result2.slice(0, -5)
-        this.setState({
-          data: result3,
-
-        })
-      }
+      this.setState({
+        data: result2,
+        country: newProps.country
+      });
     });
-
+  } 
+}
+  convertRussia = (country) => {
+    return country == 'Russia' ? 'Russian Federation' : country
   }
 
   handleTooltip({ event, data, xStock, xScale, yScale }) {
@@ -71,8 +93,8 @@ class Population3 extends React.Component {
     const data = this.state.data
     console.log(this.state.data)
     const {
-      width = 250,
-      height = 280,
+      width = 350,
+      height = 220,
       margin = {
         top: 10,
         left: 10,
@@ -114,7 +136,7 @@ class Population3 extends React.Component {
             y={0}
             width={1000}
             height={height}
-            fill='white'
+            fill='#282b30'
             rx={14}
           />
           <defs>
@@ -168,8 +190,13 @@ class Population3 extends React.Component {
             scale={xScale}
             top={yMax}
             label={'Year'}
-            stroke={'#1b1a1e'}
-            tickTextFill={'#1b1a1e'}
+            stroke={'white'}
+            tickTextFill={'white'}
+            tickLabelProps={(value, index) => ({
+              fill: 'white',
+              fontSize: 11,
+              textAnchor: 'middle',
+            })}
           />
           <Bar
             x={0}

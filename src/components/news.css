@@ -1,14 +1,34 @@
 a {
   text-decoration: none;
-  color: black;
+  color: white;
   text-align: left;
-  font-size: 14px;
+  font-size: 12px;
 }
 a:hover {
   color: blue;
 }
 ul {
-  padding: 0 10px 0 0;
+  padding: 0 10px 0 10px;
   margin: 5px 0 0 0;
   text-align: left;
+}
+
+.newsImage{
+  margin-left: 10px;
+  float:left;
+}
+
+.newsText{
+  height: 25px;
+  text-align: left;
+  margin-right: 10px;
+}
+.newsShow {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  height: 7vh;
+}
+.newsSearch{
+  color: white;
+  margin: 5px;
 }
