@@ -16,7 +16,7 @@ class Weather extends React.Component {
 
   componentWillReceiveProps = (newProps) => {
     if (newProps.lat != 0) {
-      axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${newProps.lat}&lon=${newProps.lon}&appid=b4f65559e8bc4d640899b9f609577a59&units=metric`).then((results) => {
+      axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${newProps.lat}&lon=${newProps.lon}&appid=b4f65559e8bc4d640899b9f609577a59&units=metric`).then((results) => {
         console.log(results)
         this.setState({ data: results.data })
         console.log(this.state.data)

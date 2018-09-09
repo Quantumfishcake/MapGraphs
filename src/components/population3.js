@@ -1,14 +1,11 @@
 import React from 'react'
 import { AreaClosed, Line, Bar } from '@vx/shape'
-import { appleStock } from '@vx/mock-data'
 import { curveMonotoneX } from '@vx/curve'
-import { LinearGradient } from '@vx/gradient'
 import { GridRows, GridColumns } from '@vx/grid'
 import { scaleTime, scaleLinear } from '@vx/scale'
 import { withTooltip, Tooltip } from '@vx/tooltip'
 import { localPoint } from '@vx/event'
 import { extent, max, bisector, min } from 'd3-array'
-import { timeFormat } from 'd3-time-format'
 import { csv } from 'd3-request';
 import population from './population1.csv'
 import { AxisLeft, AxisBottom } from '@vx/axis';
@@ -50,10 +47,11 @@ class Population3 extends React.Component {
   componentWillReceiveProps = (newProps) => {
     console.log(newProps.country)
     if(newProps.country != this.state.country) {
-    fetch(`http://api.population.io/1.0/population/${this.convertRussia(newProps.country)}/60/`)
+    fetch(`https://api.population.io/1.0/population/${this.convertRussia(newProps.country)}/60/`)
     .then(res => {
+      console.log(res.json())
       return res.json()
-      
+  
     })
     .then(json => {
       const result2 = json.map((x) => {
