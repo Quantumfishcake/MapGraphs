@@ -1,6 +1,5 @@
 import React from 'react'
 import { BarStack } from '@vx/shape'
-import { Group } from '@vx/group'
 import { Grid } from '@vx/grid'
 import { AxisBottom } from '@vx/axis'
 import { cityTemperature } from '@vx/mock-data'
@@ -85,7 +84,7 @@ export default withTooltip(
 
     const zScale = scaleOrdinal({
       domain: keys33,
-      range: ['#c998ff','#6c5efb' ,'#a44afe']
+      range: ['#c998ff', '#6c5efb', '#a44afe']
     })
 
     let tooltipTimeout
@@ -110,7 +109,8 @@ export default withTooltip(
             }}
             onMouseMove={data => event => {
               if (tooltipTimeout) clearTimeout(tooltipTimeout)
-              const top = event.clientY - margin.top - data.height
+              const top = event.clientY - margin.top - 500
+              console.log(event.clientY, data.height, top)
               const left = xScale(data.x) + data.width + data.paddingInner * data.step / 2
               showTooltip({
                 tooltipData: data,
@@ -146,9 +146,10 @@ export default withTooltip(
         </div>
         {tooltipOpen && (
           <Tooltip
-            top={tooltipTop - 400}
+            top={tooltipTop}
             left={tooltipLeft}
             style={{
+              zIndex: 10,
               minWidth: 60,
               backgroundColor: 'rgba(0,0,0,0.9)',
               color: 'white'

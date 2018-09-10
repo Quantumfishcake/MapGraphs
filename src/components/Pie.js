@@ -91,7 +91,7 @@ class Pies extends React.Component {
       top: 10,
       left: 10,
       right: 10,
-      bottom: 10,
+      bottom: 0,
     }
     if (width < 10) return null;
     const radius = Math.min(width, height) / 2;

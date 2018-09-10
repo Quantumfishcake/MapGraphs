@@ -7,7 +7,7 @@ import population from './population1.csv'
 import { AxisLeft, AxisBottom } from '@vx/axis';
 import _ from 'lodash'
 
-const height = 200
+const height = 300
 const width = 350
 
 class JoinBars extends React.Component {
@@ -64,13 +64,17 @@ class JoinBars extends React.Component {
     }
 
     render() {
+      
         const x0 = d => d.year;
-        const margin = 0
+        const margin = {
+            top: 20
+        }
+        console.log(margin.top)
         const data = this.state.dataJoined
         const keys = ['countryA', 'countryB']
 
         const xMax = width;
-        const yMax = height;
+        const yMax = height - margin.top - 100;
 
         const x0Scale = scaleBand({
             range: [0, xMax],
@@ -118,14 +122,14 @@ class JoinBars extends React.Component {
                 />
                 <AxisBottom
                     scale={x0Scale}
-                    top={yMax + margin.top - 100}
+                    top={yMax + margin.top }
                     stroke='#a44afe'
                     tickStroke='#a44afe'
                     tickLabelProps={(value, index) => ({
                         fill: 'white',
                         fontSize: 11,
                         textAnchor: 'middle',
-                        transform: 'rotate(90 ' + x0Scale(value) + ',0)'
+                        transform: 'rotate(90 ' + x0Scale(value) + ',10)'
                     })}
                 />
             </svg>

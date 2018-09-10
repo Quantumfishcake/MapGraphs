@@ -127,7 +127,7 @@ export default withTooltip(
             }}
             onMouseMove={data => event => {
               if (tooltipTimeout) clearTimeout(tooltipTimeout)
-              const top = event.clientY - margin.top - data.height
+              const top = event.clientY - margin.top - 500
               const left = xScale(data.x) + data.width + data.paddingInner * data.step / 2
               showTooltip({
                 tooltipData: data,
@@ -164,9 +164,10 @@ export default withTooltip(
         </div>
         {tooltipOpen && (
           <Tooltip
-            top={tooltipTop - 400}
+            top={tooltipTop}
             left={tooltipLeft}
             style={{
+              zIndex: 10,
               minWidth: 60,
               backgroundColor: 'rgba(0,0,0,0.9)',
               color: 'white'

@@ -24,9 +24,9 @@ class FactBook extends React.Component {
     }
   }
   componentWillReceiveProps = (newProps) => {
+    if (newProps.graphs != 'hidden') {
     if (this.state.country != newProps.country) {
       axios.get(`https://raw.githubusercontent.com/factbook/factbook.json/master/${this.convertCountry(newProps.country)}.json`).then((results) => {
-        console.log(results)
         this.setState({
           country: newProps.country,
           economy: results.data.Economy,
@@ -42,7 +42,6 @@ class FactBook extends React.Component {
       )
     } else if (this.state.country != '' && this.state.country2 != newProps.secoundcountry) {
       axios.get(`https://raw.githubusercontent.com/factbook/factbook.json/master/${this.convertCountry(newProps.secondcountry)}.json`).then((results) => {
-        console.log(results)
         this.setState({
           country2: newProps.secondcountry,
           economy2: results.data.Economy,
@@ -57,6 +56,7 @@ class FactBook extends React.Component {
       )
     }
   }
+  }
 
   convertCountry = (country) => {
     const index = countries2.indexOf(country)
@@ -70,11 +70,9 @@ class FactBook extends React.Component {
 
   render() {
     const { data, economy, people, people2, economy2, country, country2, geography, geography2 } = this.state
-    console.log(this.state)
     return (
       <div>
         <div className='pies'>
-          {/* <Geography geography={geography && geography} geography2={geography2 && geography2} country={country && country} country2={country2 && country2} /> */}
           <Pies languages={people && people} languages2={people2 && people2} />
         </div>
 
