@@ -47,11 +47,9 @@ class Population3 extends React.Component {
   componentWillReceiveProps = (newProps) => {
     console.log(newProps.country)
     if(newProps.country != this.state.country) {
-    fetch(`https://api.population.io/1.0/population/${this.convertRussia(newProps.country)}/60/`)
+    fetch(`https://cors-anywhere.herokuapp.com/http://api.population.io/1.0/population/${this.convertRussia(newProps.country)}/60/`)
     .then(res => {
-      console.log(res.json())
       return res.json()
-  
     })
     .then(json => {
       const result2 = json.map((x) => {
