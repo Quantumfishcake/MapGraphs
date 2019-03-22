@@ -1,11 +1,10 @@
 import { csv } from 'd3-request';
-import population from './population1.csv'
+import population from './Data/population1.csv'
 var React = require('react');
 var Component = React.Component;
 var CanvasJSReact = require('./canvasjs.react');
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
 
 class PopMix extends Component {
   constructor (props) {

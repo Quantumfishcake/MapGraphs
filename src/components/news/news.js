@@ -1,5 +1,7 @@
 import React from 'react'
 import './news.css'
+import { impCountries } from '../countryData/country_data.js'
+import { country_codes } from '../countryData/country_data.js'
 
 class News extends React.Component {
     constructor(props) {
@@ -31,8 +33,8 @@ class News extends React.Component {
     }
 
     changeCountryName = (x) => {
-        const arr1 = ['Argentina', 'Australia', 'Austria', 'Belgium', 'Brazil', 'Bulgaria', 'Canada', 'China', 'Colombia', 'Cuba', 'Czech Republic', 'Egypt', 'France', 'Germany', 'Greece', 'Hong Kong', 'Hungary', 'India', 'Indonesia', 'Ireland', 'Israel', 'Italy', 'Japan', 'Latvia', 'Lithuania', 'Malaysia', 'Mexico', 'Morocco', 'Netherlands', 'New Zealand', 'Nigeria', 'Norway', 'Philippines', 'Poland', 'Portugal', 'Romania', 'Russia', 'Saudi Arabia', 'Serbia', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa', 'South Korea', 'Sweden', 'Switzerland', 'Taiwan', 'Thailand', 'Turkey', 'UAE', 'Ukraine', 'United Kingdom', 'United States of America', 'Venezuela']
-        const arr2 = ['ar', 'au', 'at', 'be', 'br', 'bg', 'ca', 'cn', 'co', 'cu', 'cz', 'eg', 'fr', 'de', 'gr', 'hk', 'hu', 'in', 'id', 'ie', 'il', 'it', 'jp', 'lv', 'ly', 'my', 'mx', 'ma', 'nl', 'nz', 'ng', 'no', 'ph', 'pl', 'pt', 'ro', 'ru', 'sa', 'rs', 'sg', 'sk', 'si', 'za', 'kr', 'se', 'ch', 'tw', 'th', 'tr', 'ae', 'ua', 'gb', 'us', 've']
+        const arr1 = impCountries
+        const arr2 = country_codes
         const pos = arr1.indexOf(x)
         return arr2[pos]
     }
@@ -43,23 +45,25 @@ class News extends React.Component {
     }
     _handleSubmit = (event) => {
         event.preventDefault()
-        this.props.country != '' ? fetch(`https://newsapi.org/v2/top-headlines?country=${this.changeCountryName(this.props.country)}&category=${this.state.search}&pageSize=8&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
-        .then(res => {
-            return res.json();
-        })
-        .then(json => {
-            this.setState({ data: json.articles })
-        }) : fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${this.state.search}&pageSize=8&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
-        .then(res => {
-            return res.json();
-        })
-        .then(json => {
-            this.setState({ data: json.articles })
-        })
+        this.props.country != '' 
+            ? fetch(`https://newsapi.org/v2/top-headlines?country=${this.changeCountryName(this.props.country)}&category=${this.state.search}&pageSize=8&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
+                .then(res => {
+                    return res.json();
+                })
+                .then(json => {
+                    this.setState({ data: json.articles })
+                }) 
+            : fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${this.state.search}&pageSize=8&apiKey=61077b6f395742a9aff9bb1e76ff769a`)
+                .then(res => {
+                    return res.json();
+                })
+                .then(json => {
+                    this.setState({ data: json.articles })
+                })
     }
 
-
     render() {
+        console.log(this.props.country)
         const { data } = this.state
         return (
             <div className='newsContainer'>
@@ -71,18 +75,15 @@ class News extends React.Component {
                 </form>
                 {data.map((x) =>
                     <div className='newsShow'>
-                    {x.urlToImage ? <img src={x.urlToImage} style={{ height: 40 }} className='newsImage' /> : <img />}
-                            <div className='newsText'>
-                            <a href={x.url} target="_blank" >{x.title} </a>
-                            </div>
-                            
+                        {x.urlToImage ? <img src={x.urlToImage} style={{ height: 40 }} className='newsImage' /> : <img />}
+                        <div className='newsText'>
+                        <a href={x.url} target="_blank" >{x.title} </a>
+                        </div>
                     </div>
                 )}
-                
             </div>
         )
     }
-
 }
 
 export default News

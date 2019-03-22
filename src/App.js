@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-import Map from './components/Map.js'
+import ZoomPan from './components/zoommap.js'
 
 class App extends Component {
   constructor () {
@@ -13,7 +13,7 @@ class App extends Component {
   render () {
     return (
       <div className='App'>
-        <Map width={1500} height={700} />
+         <ZoomPan />
       </div>
     )
   }

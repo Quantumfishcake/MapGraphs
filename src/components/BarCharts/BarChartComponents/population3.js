@@ -7,10 +7,8 @@ import { withTooltip, Tooltip } from '@vx/tooltip'
 import { localPoint } from '@vx/event'
 import { extent, max, bisector, min } from 'd3-array'
 import { csv } from 'd3-request';
-import population from './population1.csv'
+import population from '../../Data/population1.csv'
 import { AxisLeft, AxisBottom } from '@vx/axis';
-
-
 
 // accessors
 const xStock = d => d.year
@@ -26,26 +24,7 @@ class Population3 extends React.Component {
     this.handleTooltip = this.handleTooltip.bind(this)
   }
 
-  // componentWillReceiveProps = (newProps) => {
-  //   csv(population, (data) => {
-  //     var result = data.filter((x) => {
-  //       return x['Country Name'] == this.convertRussia(newProps.country)
-  //     })
-  //     if (result != '') {
-  //       var result2 = Object.keys(result[0]).map(function (e) {
-  //         return { year: e, population: Number(result[0][e]) }
-  //       })
-  //       var result3 = result2.slice(0, -5)
-  //       this.setState({
-  //         data: result3,
-
-  //       })
-  //     }
-  //   });
-
-  // }
   componentWillReceiveProps = (newProps) => {
-    console.log(newProps.country)
     if(newProps.country != this.state.country) {
     fetch(`https://cors-anywhere.herokuapp.com/http://api.population.io/1.0/population/${this.convertRussia(newProps.country)}/60/`)
     .then(res => {
@@ -63,12 +42,18 @@ class Population3 extends React.Component {
   } 
 }
   convertRussia = (country) => {
-    return country == 'Russia' ? 'Russian Federation' : country
+    if(country == 'Russia'){
+      return 'Russian Federation'
+    }
+    else if(country == 'United States of America'){
+      return 'United States'
+    }
+    else {
+      return country
+    }
   }
 
   handleTooltip({ event, data, xStock, xScale, yScale }) {
-    console.log(event)
-    console.log(data)
     const { showTooltip } = this.props
     const { x } = localPoint(event)
     const x0 = xScale.invert(x)
@@ -87,7 +72,6 @@ class Population3 extends React.Component {
   }
   render() {
     const data = this.state.data
-    console.log(this.state.data)
     const {
       width = 350,
       height = 220,
@@ -180,7 +164,6 @@ class Population3 extends React.Component {
             fill={'url(#gradient)'}
             curve={curveMonotoneX}
           />
-
 
           <AxisBottom
             scale={xScale}

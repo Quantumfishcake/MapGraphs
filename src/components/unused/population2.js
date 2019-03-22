@@ -10,7 +10,7 @@ import Slider from 'react-rangeslider'
 import { localPoint } from '@vx/event';
 import 'react-rangeslider/lib/index.css'
 import { csv } from 'd3-request';
-import population from './population1.csv'
+import population from './Data/population1.csv'
 
 
 

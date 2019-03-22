@@ -9,7 +9,7 @@ import { extent, max } from 'd3-array';
 import Slider from 'react-rangeslider'
 import { csvParse } from 'd3-dsv';
 import {csv} from 'd3-fetch';
-import population from './population1.csv'
+import population from './Data/population1.csv'
 import 'react-rangeslider/lib/index.css'
 
 class Chart extends React.Component {
@@ -81,7 +81,6 @@ class Chart extends React.Component {
       });
   }
   
-
   render() {
     const data = this.state.data;
 
@@ -110,8 +109,6 @@ class Chart extends React.Component {
       domain: [0, max(data, y)],
     });
 
-      
-  
     return (
       <div>
         <form onSubmit={this._handleSubmit}>

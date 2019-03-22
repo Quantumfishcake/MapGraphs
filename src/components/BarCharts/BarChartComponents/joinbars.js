@@ -3,7 +3,7 @@ import { Bar, BarGroup } from '@vx/shape';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
 import { extent, max } from 'd3-array';
 import { csv } from 'd3-request';
-import population from './population1.csv'
+import population from '../../Data/population1.csv'
 import { AxisLeft, AxisBottom } from '@vx/axis';
 import _ from 'lodash'
 
@@ -69,7 +69,6 @@ class JoinBars extends React.Component {
         const margin = {
             top: 20
         }
-        console.log(margin.top)
         const data = this.state.dataJoined
         const keys = ['countryA', 'countryB']
 
