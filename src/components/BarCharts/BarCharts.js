@@ -63,14 +63,22 @@ class FactBook2 extends React.Component {
   }
 
   render() {
-    const { economy, people, people2, economy2, country, country2 } = this.state
+    // const { economy, people, people2, economy2, country, country2 } = this.state
+    const { selectedCountryData, secondCountryData, selectedCountry, secondCountry} = this.props
+    const economy = selectedCountryData.Economy
+    const economy2 = secondCountryData.Economy !== '' ? secondCountryData.Economy : ''
+    const people = selectedCountryData.Economy
+    const country = selectedCountry
+    const country2 = secondCountry !== ''  ? secondCountry : ''
+    console.log(country2)
+
     return (
       <div>
         <div className='Graphs2'>
-          <Economy economy={economy && economy} economy2={economy2 && economy2} country={country && country} country2={country2 && country2} width={350} height={250} className='chart1'/>
-          <People people={people && people} people2={people2 && people2} country={country && country} country2={country2 && country2} width={350} height={250} className='chart2'/>
+          <Economy economy={economy && economy}  country={country && country} country2={country2 && country2} economy2={economy2 && economy2} width={350} height={250} className='chart1'/>
+          {/* <People people={people && people} people2={people2 && people2} country={country && country} country2={country2 && country2} width={350} height={250} className='chart2'/>
           <Population3 country={country && country} className='chart3'/>
-          <JoinBars country={country && country} width={300} secondcountry={country2 && country2} className='chart5'/>
+          <JoinBars country={country && country} width={300} secondcountry={country2 && country2} className='chart5'/> */}
         </div>
       </div>
     )

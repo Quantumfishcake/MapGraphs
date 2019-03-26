@@ -22,7 +22,6 @@ const wrapperStyles = {
   margin: "auto",
 }
 
-
 class ZoomPan extends React.Component {
   constructor(props) {
     super(props)
@@ -45,12 +44,10 @@ class ZoomPan extends React.Component {
     }
   }
 
-
   componentDidMount() {
     this.tip = tooltip()
     this.tip.create()
   }
-
 
   componentDidUpdate = (prevProps, prevState) => {
     if (prevState.population !== this.state.population) {
@@ -70,7 +67,6 @@ class ZoomPan extends React.Component {
       }
     }
   }
-
 
   handleSliderChange = (value) => {
     this.setState({ population: value })
@@ -107,6 +103,7 @@ class ZoomPan extends React.Component {
 
   render() {
     const { populationData, selectedCountry, graphs, cities2, population, weather, lon, lat } = this.state
+    console.log(this.props.secondCountry)
     return (
       <div>
         <div className={this.props.selectedCountry == '' ? 'MainContainer' : 'MainContainer2'} >
@@ -139,16 +136,16 @@ class ZoomPan extends React.Component {
               <News country={this.props.selectedCountry} />
             </div>
           </div>
-          {/* <div className='GraphContainer' style={{ display: graphs == 'hidden' ? 'none' : 'block' }}>
+          <div className='GraphContainer' >
             <button onClick={this.switchToWeather}>
               News
             </button>
-            <FactBook country={selectedCountry} secondcountry={secondCountry} graphs={graphs}/>
-          </div> */}
+            {this.props.selectedCountryData && this.props.selectedCountryData['People and Society'] && <FactBook selectedCountry={this.props.selectedCountry} secondcountry={this.props.secondCountry} selectedCountryData={this.props.selectedCountryData} secondCountryData={this.props.secondCountryData} graphs={graphs}/>}
+            </div>
         </div>
-         {/* <div className='GraphContainer2' style={{ display: graphs == 'hidden' ? 'none' : 'block' }}>
-          <FactBook2 country={selectedCountry} secondcountry={secondCountry} graphs={graphs}/>
-        </div> */}
+         <div className='GraphContainer2'>
+          {this.props.selectedCountryData && <FactBook2 selectedCountry={this.props.selectedCountry} secondCountry={this.props.secondCountry} selectedCountryData={this.props.selectedCountryData} secondCountryData={this.props.secondCountryData} graphs={graphs}/>}
+        </div>
       </div>
 
     )   

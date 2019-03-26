@@ -1,28 +1,6 @@
 import React from 'react';
 import { Pie } from '@vx/shape';
 import { Group } from '@vx/group';
-import chroma from "chroma-js"
-import { map } from 'lodash/fp'
-
-const mapWithKey = map.convert({cap: false})
-
-const colorScale2 = chroma
-  .scale([
-    '#FF6E40',
-    '#FFD740',
-    '#00B8D4',
-  ])
-  .mode('lch')
-  .colors(12)
-
-  const colorScale3 = chroma
-  .scale([
-    '#FF6E40',
-    '#FFD740',
-    '#00B8D4',
-  ])
-  .mode('lch')
-  .colors(6)
 
 const Label = ({ x, y, children })  => {
   return (
@@ -42,31 +20,10 @@ const Label = ({ x, y, children })  => {
 class Pies extends React.Component {
   constructor () {
     super ()
-    this.state= {
-      country1: [],
-      country2: [],
-      ageGroups: [],
-      ageGroups2: [],
-      data: [{
-        age: 20,
-        mortality_percent: 10
-      }]
-    }
-  }
-
-  componentWillReceiveProps = (newProps) =>{
-   if (newProps.country1 != undefined) {
-      const country1 = newProps.country1
-      this.setState({ country1 })
-    }
-    if (newProps.country2 != undefined){
-      const country2 = newProps.country2
-      this.setState({ country2 })
-    } 
   }
 
   render(){
-    const {country1, country2} = this.state
+    const {country1, country2} = this.props
     const width = 250
     const height = 250
     const events = false
@@ -78,6 +35,7 @@ class Pies extends React.Component {
     }
     if (width < 10) return null;
     const radius = Math.min(width, height) / 2;
+    const innerRad = country2 ? radius - 60 : ''
     return (
       <div>
         <svg width={width} height={height}>
@@ -86,7 +44,7 @@ class Pies extends React.Component {
               data={country1}
               pieValue={d => d.percent}
               outerRadius={radius - 20 }
-              innerRadius={radius - 60}
+              innerRadius={innerRad }
               fill={'#c998ff'}
               fillOpacity={d => 1 / d.index }
               cornerRadius={3}
@@ -97,7 +55,7 @@ class Pies extends React.Component {
                 return <Label x={x} y={y}>{arc.data.language || arc.data.group }</Label>;
               }}
             />
-              <Pie
+            {country2 ? <Pie
               data={country2}
               pieValue={d => d.percent}
               outerRadius={radius - 70}
@@ -113,7 +71,8 @@ class Pies extends React.Component {
                 if (endAngle - startAngle < .5) return null;
                 return <Label x={x} y={y}>{arc.data.language || arc.data.group}</Label>;
               }}
-            />
+            /> : <div></div>}
+              
           </Group>
         </svg>
       </div>

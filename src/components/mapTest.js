@@ -17,7 +17,6 @@ import { impCountries } from './countryData/country_data.js'
 import { factBookAPI } from './utilities/factbookAPI.js';
 import { updateCountry, updateCountryData, updateSecondCountry, updateSecondCountryData } from '../actions/country-actions.js';
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 import MapButtons from './utilities/mapButtons'
 
 const colorScale = chroma
@@ -227,32 +226,14 @@ class MapTest extends Component {
 
 }
 
-const countrySelector = createSelector(
-  state => state.selectedCountry,
-  selectedCountry => selectedCountry,
-);
-const secondCountrySelector = createSelector(
-  state => state.secondCountry,
-  secondCountry => secondCountry,
-);
-const selectedCountryData = createSelector(
-  state => state.selectedCountryData,
-  selectedCountryData => selectedCountryData,
-);
-const secondCountryDataSelector = createSelector(
-  state => state.secondCountryData,
-  secondCountryData => secondCountryData,
-);
-
-const mapStateToProps = createSelector(
-  countrySelector,
-  secondCountrySelector,
-  selectedCountryData,
-  secondCountryDataSelector,
-  (selectedCountry, secondCountry, selectedCountryData, secondCountryData) => ({
-    selectedCountry, secondCountry, selectedCountryData, secondCountryData
-  })
-);;
+const mapStateToProps = (state) => {
+  return {
+    selectedCountry: state.selectedCountry,
+    secondCountry: state.secondCountry,
+    selectedCountryData: state.selectedCountryData,
+    secondCountryData: state.secondCountryData
+  }
+}
 
 const mapActionsToProps = {
   onUpdateSelectedCountry: updateCountry,

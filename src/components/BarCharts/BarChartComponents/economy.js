@@ -9,7 +9,6 @@ import { LegendOrdinal } from '@vx/legend'
 import { extent, max } from 'd3-array'
 import { replace } from 'lodash'
 
-
 // accessors
 const x = d => d.Budget
 const y = d => d.value
@@ -20,10 +19,10 @@ const MoneyConversion = (arr) => {
 
 export default withTooltip(
   ({
-    economy = [],
-    economy2 = [],
-    country = '',
-    country2 = '',
+    economy ,
+    economy2 ,
+    country ,
+    country2,
     width,
     height,
     events = false,
@@ -43,7 +42,6 @@ export default withTooltip(
 
     // bounds
  
-
     const countryName = country
     const countryName2 = country2
     const countryRevenue = economy.Budget && economy.Budget.revenues.text.split(' ')[0].replace('$', '')
@@ -53,28 +51,37 @@ export default withTooltip(
     const unemploymentRate = economy['Unemployment rate'] && economy['Unemployment rate'].text.split(' ')[0].replace('%', '')
     const PovertyRate = economy['Population below poverty line'] && economy['Population below poverty line'].text.split(' ')[0].replace('%', '')
     const GDPperCapita = economy['GDP - per capita (PPP)'] && economy['GDP - per capita (PPP)'].text.split(' ')[0].replace('$', '').replace(',', '')
-    console.log(GDPperCapita)
+    console.log(country2)
 
-    const countryRevenue2 = economy2.Budget && economy2.Budget.revenues.text.split(' ')[0].replace('$', '')
-    const countryExpenditure2 = economy2.Budget && economy2.Budget.expenditures.text.split(' ')[0].replace('$', '')
-    const GDP2 = economy2['GDP (official exchange rate)'] && MoneyConversion(economy2['GDP (official exchange rate)'].text.split(' '))
-    const Debt2 = economy2['Debt - external'] && MoneyConversion(economy2['Debt - external'].text.split(' '))
-    const unemploymentRate2 = economy2['Unemployment rate'] && economy2['Unemployment rate'].text.split(' ')[0].replace('%', '')
-    const PovertyRate2 = economy2['Population below poverty line'] && economy2['Population below poverty line'].text.split(' ')[0].replace('%', '')
-    const GDPperCapita2 = economy2['GDP - per capita (PPP)'] && economy2['GDP - per capita (PPP)'].text.split(' ')[0].replace('$', '').replace(',', '')
+    // const countryRevenue2 = economy2.Budget && economy2.Budget.revenues.text.split(' ')[0].replace('$', '')
+    // const countryExpenditure2 = economy2.Budget && economy2.Budget.expenditures.text.split(' ')[0].replace('$', '')
+    // const GDP2 = economy2['GDP (official exchange rate)'] && MoneyConversion(economy2['GDP (official exchange rate)'].text.split(' '))
+    // const Debt2 = economy2['Debt - external'] && MoneyConversion(economy2['Debt - external'].text.split(' '))
+    // const unemploymentRate2 = economy2['Unemployment rate'] && economy2['Unemployment rate'].text.split(' ')[0].replace('%', '')
+    // const PovertyRate2 = economy2['Population below poverty line'] && economy2['Population below poverty line'].text.split(' ')[0].replace('%', '')
+    // const GDPperCapita2 = economy2['GDP - per capita (PPP)'] && economy2['GDP - per capita (PPP)'].text.split(' ')[0].replace('$', '').replace(',', '')
+    
+     const  graphData =  country2 && country2 !== '' ? [
+        { Budget: 'Revenue', [countryName]: (countryRevenue) /10, [countryName2]: (countryRevenue2) /10 },
+        { Budget: 'Expenditure', [countryName]: countryExpenditure /10, [countryName2]: countryExpenditure2 /10 },
+        { Budget: 'Unemployment', [countryName]: unemploymentRate, [countryName2]: unemploymentRate2 },
+        { Budget: 'Debt', [countryName]: Debt /10 , [countryName2]: Debt2 /10 },
+        { Budget: 'Poverty Rate', [countryName]: PovertyRate, [countryName2]: PovertyRate2 },
+        { Budget: 'GDP PPP', [countryName]: GDPperCapita / 1000, [countryName2]: GDPperCapita2 / 1000 },
+        { Budget: 'GDP', [countryName]: GDP /10, [countryName2]: GDP2/10 }
+      ] : [
+        { Budget: 'Revenue', [countryName]: (countryRevenue) /10 },
+        { Budget: 'Expenditure', [countryName]: countryExpenditure /10 },
+        { Budget: 'Unemployment', [countryName]: unemploymentRate },
+        { Budget: 'Debt', [countryName]: Debt /10  },
+        { Budget: 'Poverty Rate', [countryName]: PovertyRate },
+        { Budget: 'GDP PPP', [countryName]: GDPperCapita / 1000 },
+        { Budget: 'GDP', [countryName]: GDP /10 }
+      ]
+    
+    const keys33 = Object.keys(graphData[0]).filter(d => d !== 'Budget')
 
-    const data33 = [
-      { Budget: 'Revenue', [countryName]: (countryRevenue) /10, [countryName2]: (countryRevenue2) /10 },
-      { Budget: 'Expenditure', [countryName]: countryExpenditure /10, [countryName2]: countryExpenditure2 /10 },
-      { Budget: 'Unemployment', [countryName]: unemploymentRate, [countryName2]: unemploymentRate2 },
-      { Budget: 'Debt', [countryName]: Debt /10 , [countryName2]: Debt2 /10 },
-      { Budget: 'Poverty Rate', [countryName]: PovertyRate, [countryName2]: PovertyRate2 },
-      { Budget: 'GDP PPP', [countryName]: GDPperCapita / 1000, [countryName2]: GDPperCapita2 / 1000 },
-      { Budget: 'GDP', [countryName]: GDP /10, [countryName2]: GDP2/10 }
-    ]
-    const keys33 = Object.keys(data33[0]).filter(d => d !== 'Budget')
-
-    const totals = data33.reduce((ret, cur) => {
+    const totals = graphData.reduce((ret, cur) => {
       const t = keys33.reduce((dailyTotal, k) => {
         dailyTotal += +cur[k]
         return dailyTotal
@@ -88,7 +95,7 @@ export default withTooltip(
     // // scales
     const xScale = scaleBand({
       rangeRound: [0, xMax],
-      domain: data33.map(x),
+      domain: graphData.map(x),
       padding: 0.2,
       tickFormat: () => val => val
     })
@@ -96,7 +103,6 @@ export default withTooltip(
       domain: [0, max(totals)],
       range: [yMax, 10],
   
-     
     })
   
     const zScale = scaleOrdinal({
@@ -113,7 +119,7 @@ export default withTooltip(
         
           <BarStack
             top={margin.top}
-            data={data33}
+            data={graphData}
             keys={keys33}
             height={yMax}
             x={x}
