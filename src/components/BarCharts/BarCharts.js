@@ -5,6 +5,7 @@ import People from './BarChartComponents/people.js'
 import Population3 from './BarChartComponents/population3.js'
 import JoinBars from './BarChartComponents/joinbars.js'
 import { countries2 } from '../countryData/country_data.js' 
+import BarGroup from './BarChartComponents/barGroup'
 
 const MoneyConversion = (arr) => {
   return arr[1] == 'trillion' ? arr[0].replace('$', '') * 1000 : arr[0].replace('$', '')
@@ -64,7 +65,7 @@ class FactBook2 extends React.Component {
     const PovertyRate = selectedCountryData.Economy['Population below poverty line'] && selectedCountryData.Economy['Population below poverty line'].text.split(' ')[0].replace('%', '')
     const GDPperCapita = selectedCountryData.Economy['GDP - per capita (PPP)'] && selectedCountryData.Economy['GDP - per capita (PPP)'].text.split(' ')[0].replace('$', '').replace(',', '')
 
-    let  geographyData =  [
+    let  data =  [
       { Budget: 'Revenue', [selectedCountry]: (countryRevenue) /10 },
       { Budget: 'Expenditure', [selectedCountry]: countryExpenditure /10 },
       { Budget: 'Unemployment', [selectedCountry]: unemploymentRate },
@@ -83,7 +84,7 @@ class FactBook2 extends React.Component {
         const PovertyRate2 = secondCountryData.Economy['Population below poverty line'] && secondCountryData.Economy['Population below poverty line'].text.split(' ')[0].replace('%', '')
         const GDPperCapita2 = secondCountryData.Economy['GDP - per capita (PPP)'] && secondCountryData.Economy['GDP - per capita (PPP)'].text.split(' ')[0].replace('$', '').replace(',', '')
         
-        geographyData =  [
+        data =  [
             { Budget: 'Revenue', [selectedCountry]: (countryRevenue) /10, [secondCountry]: (countryRevenue2) /10 },
             { Budget: 'Expenditure', [selectedCountry]: countryExpenditure /10, [secondCountry]: countryExpenditure2 /10 },
             { Budget: 'Unemployment', [selectedCountry]: unemploymentRate, [secondCountry]: unemploymentRate2 },
@@ -94,10 +95,59 @@ class FactBook2 extends React.Component {
         ]
       
       }
-  
-    const keys = Object.keys(geographyData[0]).filter(d => d !== 'Budget')
 
-    const totals = geographyData.reduce((ret, cur) => {
+    const keys = this.filterDataKeys(data, 'Budget')
+
+    const totals = this.filterDataTotals(data, keys)
+
+    return { keys, totals, data }
+  }
+
+  peopleData = () => {
+    const { selectedCountryData, secondCountryData, selectedCountry, secondCountry} = this.state
+    const lifeExpectancy = selectedCountryData['People and Society']['Life expectancy at birth'] && selectedCountryData['People and Society']['Life expectancy at birth']['total population'].text.split(' ')[0]
+    const populationGrowthRate =selectedCountryData['People and Society']['Population growth rate'] && selectedCountryData['People and Society']['Population growth rate'].text.split(' ')[0].replace('%', '')
+    const fertilityRate = selectedCountryData['People and Society']['Total fertility rate'] && selectedCountryData['People and Society']['Total fertility rate'].text.split(' ')[0]
+    const obesity = selectedCountryData['People and Society']['Obesity - adult prevalence rate'] && selectedCountryData['People and Society']['Obesity - adult prevalence rate'].text.split(' ')[0].replace('%', '')
+    const medianAge = selectedCountryData['People and Society']['Median age'] && selectedCountryData['People and Society']['Median age'].total.text.split(' ')[0]
+
+    let data = [
+      { People: 'Life Exp', [selectedCountry]: lifeExpectancy },
+      { People: 'Pop Growth', [selectedCountry]: populationGrowthRate},
+      { People: 'Fert Rate', [selectedCountry]: fertilityRate },
+      { People: 'Obesity', [selectedCountry]: obesity },
+      { People: 'Med Age', [selectedCountry]: medianAge}
+
+    ]
+
+    if(secondCountryData !== ''){
+      const lifeExpectancy2 = secondCountryData['People and Society']['Life expectancy at birth'] && secondCountryData['People and Society']['Life expectancy at birth']['total population'].text.split(' ')[0]
+      const populationGrowthRate2 = secondCountryData['People and Society']['Population growth rate'] && secondCountryData['People and Society']['Population growth rate'].text.split(' ')[0].replace('%', '')
+      const fertilityRate2 = secondCountryData['People and Society']['Total fertility rate'] && secondCountryData['People and Society']['Total fertility rate'].text.split(' ')[0]
+      const obesity2 = secondCountryData['People and Society']['Obesity - adult prevalence rate'] && secondCountryData['People and Society']['Obesity - adult prevalence rate'].text.split(' ')[0].replace('%', '')
+      const medianAge2 = secondCountryData['People and Society']['Median age'] && secondCountryData['People and Society']['Median age'].total.text.split(' ')[0]
+      
+      data = [
+        { People: 'Life Exp', [selectedCountry]: (lifeExpectancy), [secondCountry]: (lifeExpectancy2) },
+        { People: 'Pop Growth', [selectedCountry]: populationGrowthRate, [secondCountry]: populationGrowthRate2 },
+        { People: 'Fert Rate', [selectedCountry]: fertilityRate, [secondCountry]: fertilityRate2 },
+        { People: 'Obesity', [selectedCountry]: obesity, [secondCountry]: obesity2 },
+        { People: 'Med Age', [selectedCountry]: medianAge, [secondCountry]: medianAge2 }
+      ]
+    }
+    const keys = this.filterDataKeys(data, 'People')
+
+    const totals = this.filterDataTotals(data, keys)
+
+    return { keys, totals, data }
+  }
+
+  filterDataKeys = (data, type) => {
+    return Object.keys(data[0]).filter(d => d !== type)
+  }
+
+  filterDataTotals = (data, keys) => {
+    return data.reduce((ret, cur) => {
       const t = keys.reduce((dailyTotal, k) => {
         dailyTotal += +cur[k]
         return dailyTotal
@@ -105,17 +155,18 @@ class FactBook2 extends React.Component {
       ret.push(t)
       return ret
     }, [])
-   
-    return { keys, totals, geographyData }
   }
 
   render() {
-    console.log(this.geographyData())
       const geographyData = this.geographyData()
+      const peopleData = this.peopleData()
+      console.log(geographyData, peopleData)
     return (
       <div>
         <div className='Graphs2'>
-          <Economy allData={geographyData} width={350} height={300} className='chart1'/>
+         
+          <Economy allData={geographyData} width={350} height={300} className='chart1' scale={1} name='Budget'/>
+          <Economy allData={peopleData} width={350} height={300} className='chart2' scale={2} name='People'/>
           {/* <People people={people && people} people2={people2 && people2} country={country && country} country2={country2 && country2} width={350} height={250} className='chart2'/>
           <Population3 country={country && country} className='chart3'/>
           <JoinBars country={country && country} width={300} secondcountry={country2 && country2} className='chart5'/> */}

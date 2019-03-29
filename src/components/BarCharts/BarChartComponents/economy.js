@@ -1,27 +1,21 @@
 import React from 'react'
 import { BarStack } from '@vx/shape'
-import { Group } from '@vx/group'
-import { Grid } from '@vx/grid'
 import { AxisBottom, AxisTop } from '@vx/axis'
-import { scaleBand, scaleLinear, scaleOrdinal, scaleLog } from '@vx/scale'
+import { scaleBand, scaleLinear, scaleOrdinal, scaleLog, scalePower } from '@vx/scale'
 import { withTooltip, Tooltip } from '@vx/tooltip'
 import { LegendOrdinal } from '@vx/legend'
 import { extent, max } from 'd3-array'
-import { replace } from 'lodash'
+import { localPoint } from '@vx/event';
 
 // accessors
-const x = d => d.Budget
-const y = d => d.value
-
-const MoneyConversion = (arr) => {
-  return arr[1] == 'trillion' ? arr[0].replace('$', '') * 1000 : arr[0].replace('$', '')
-}
 
 export default withTooltip(
   ({
     allData,
     width,
     height,
+    scale,
+    name,
     events = false,
     margin = {
       top: 40
@@ -35,19 +29,25 @@ export default withTooltip(
   }) => {
     if (width < 10) return null
 
+    const x = d => d[name]
+    const y = d => d.value
+    
     const xMax = width
     const yMax = height - margin.top - 50
     // // scales
     const xScale = scaleBand({
       rangeRound: [0, xMax],
-      domain: allData.geographyData.map(x),
+      domain: allData.data.map(x),
       padding: 0.2,
       tickFormat: () => val => val
     })
-    const yScale = scaleLinear({
-      domain: [0, max(allData.totals)],
-      range: [yMax, 10],
-  
+    const yScale = scalePower({
+      // rangeRound: [yMax, 0],
+      // nice: false,
+      // domain: [0, max(allData.totals)]
+      exponent: 0.5,
+      domain:[0, max(allData.totals)],
+      range:[yMax, 10]
     })
   
     const zScale = scaleOrdinal({
@@ -61,10 +61,9 @@ export default withTooltip(
       <div style={{ position: 'relative' }}>
         <svg width={width} height={height}>
           <rect x={0} y={0} width={width} height={height} fill={`#282b30`} rx={14} />
-        
           <BarStack
             top={margin.top}
-            data={allData.geographyData}
+            data={allData.data}
             keys={allData.keys}
             height={yMax}
             x={x}
@@ -77,10 +76,9 @@ export default withTooltip(
               }, 300)
             }}
             onMouseMove={data => event => {
-              console.log(event.clientY, window.innerHeight)
               if (tooltipTimeout) clearTimeout(tooltipTimeout)
-              const top = event.clientY + margin.top
-              console.log(top)
+              const coords = localPoint(event.target.ownerSVGElement, event);
+              const top =  coords.y
               const left = xScale(data.x) + data.width + data.paddingInner * data.step / 2
               showTooltip({
                 tooltipData: data,

@@ -74,6 +74,7 @@ class MapTest extends Component {
           lat: !i.geometry.coordinates[0][0].some(isNaN) ? i.geometry.coordinates[0][0][1] : i.geometry.coordinates[0][0][0][1],
         })
       factBookAPI(i.properties.admin).then(data => {
+        console.log(this.props)
         this.props.onUpdateCountryData(data);
       })
     }
